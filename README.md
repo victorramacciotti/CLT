@@ -1,4 +1,4 @@
-<h1 align="center"> CLT: Caos Construído pra Meio de Avaliação Acadêmica </h1>
+<h1 align="center"> CLT: Caos, Luta e Treta - Construído pra Meio de Avaliação Acadêmica </h1>
 
 <p> Projeto desenvolvido para a disciplina de Linguagem de Programação III do curso de Sistemas de Informação - UESB </p>
 
