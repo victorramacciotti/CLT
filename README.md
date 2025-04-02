@@ -32,6 +32,6 @@
 <p> O desenvolvimento foi realizado de forma colaborativa pelos alunos: </p>
 
 -   <a href="https://github.com/carloscdf">Carlos Henrique</a>
--   <a href="">Silas</a>
+-   <a href="https://github.com/Sigmarok">Silas Zames</a>
 -   <a href="https://github.com/victorramacciotti">Víctor Ramaciotti</a>
 -   <a href="https://github.com/willalmeid">William Almeida</a>
