@@ -4,7 +4,7 @@
 
 <h2> Descrição do Projeto </h2>
 
-<p> Este repositório apresenta <strong>CLT: Caos</strong>, um jogo de luta 2D desenvolvido em Java como parte de um projeto acadêmico. A iniciativa foi orientada pelo professor <strong>Murilo Santana</strong> e tem como objetivo aplicar os conceitos abordados na disciplina Linguagem de Programação III, explorando práticas como:
+<p> Este repositório apresenta <strong>CLT: Caos, Luta e Treta</strong>, um jogo de luta 2D desenvolvido em Java como parte de um projeto acadêmico. A iniciativa foi orientada pelo professor <strong>Murilo Santana</strong> e tem como objetivo aplicar os conceitos abordados na disciplina Linguagem de Programação III, explorando práticas como:
 
 -   Programação orientada a objetos (POO)
 -   Manipulação de interfaces gráficas com Java Swing
@@ -15,7 +15,7 @@
 
 <h2> Propósito </h2>
 
-<p> O CLT: caos foi desenvolvido com o intuito de proporcionar uma experiência dinâmica de combate em 2D, onde os jogadores podem escolher entre diferentes personagens e realizar uma variedade de ataques. O jogo foi criado para testar conceitos de programação, lógica de jogo e interface gráfica.</p>
+<p> O CLT: Caos, Luta e Treta foi desenvolvido com o intuito de proporcionar uma experiência dinâmica de combate em 2D, onde os jogadores podem escolher entre diferentes personagens e realizar uma variedade de ataques. O jogo foi criado para testar conceitos de programação, lógica de jogo e interface gráfica.</p>
 
 <h2> Funcionalidades </h2>
 
