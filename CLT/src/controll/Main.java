@@ -13,6 +13,6 @@ public class Main {
 
 		CharacterSelectionPanel characterSelectionPanel = new CharacterSelectionPanel();
 		GameWindow gameWindow = new GameWindow(characterSelectionPanel);
-//		CharacterSelectionController characterSelectionController = new CharacterSelectionController(gameWindow, characterSelectionPanel, player1, player2); 
+		CharacterSelectionController characterSelectionController = new CharacterSelectionController(gameWindow, characterSelectionPanel, player1, player2); 
 	}
 }
