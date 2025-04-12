@@ -4,14 +4,14 @@ public class Player {
 	
 	private int positionX;
 	private int positionY;
+	private int width = 80;
+	private int height = 120;
 	
 	private int playerID;
 	private Character character;
 	private String spritePath;
 	
-	public Player() {
-		
-	}
+	public Player() {}
 	
 	public Player(int playerID, int positionX, int positionY) {
 		this.playerID = playerID;
@@ -46,6 +46,11 @@ public class Player {
         opponent.getCharacter().takingDamage(damage);
 	}
 	
+	public void move(int x, int y) {
+		this.positionX += x;
+		this.positionY += y;
+	}
+	
 	public boolean isAlive() {
         return character.getLife() > 0;
     }
@@ -55,6 +60,14 @@ public class Player {
 	}
 
 	public int getPositionY() {
+		return positionY;
+	}
+	
+	public int getWidth() {
+		return positionX;
+	}
+	
+	public int getHeight() {
 		return positionY;
 	}
 	
