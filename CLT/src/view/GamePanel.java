@@ -30,6 +30,9 @@ public class GamePanel extends JPanel {
     private int timeRemaining = 300; // 5 minutos (300 segundos)
     private Timer gameTimer;
     private boolean gameOver = false;
+    
+ // Dentro de GamePanel
+    private Runnable onGameEnd;
 
     public GamePanel(Player player1, Player player2) {
         this.player1 = player1;
@@ -171,6 +174,7 @@ public class GamePanel extends JPanel {
     private void endGame() {
         gameOver = true;
         gameTimer.stop();
+
         String winner;
         if (player1.getCharacter().getLife() > player2.getCharacter().getLife()) {
             winner = player1.getCharacter().getName();
@@ -188,9 +192,17 @@ public class GamePanel extends JPanel {
         add(gameOverLabel);
         revalidate();
         repaint();
+
+        if (onGameEnd != null) {
+            onGameEnd.run(); // <- chama o callback no fim do jogo
+        }
     }
 
     public boolean isGameOver() { return gameOver; }
     public JLabel getSpriteLabel1() { return spriteLabel1; }
     public JLabel getSpriteLabel2() { return spriteLabel2; }
+    
+    public void setOnGameEnd(Runnable onGameEnd) {
+        this.onGameEnd = onGameEnd;
+    }
 }
