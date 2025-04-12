@@ -30,19 +30,17 @@ public class GamePanel extends JPanel {
     private int timeRemaining = 300; // 5 minutos (300 segundos)
     private Timer gameTimer;
     private boolean gameOver = false;
-    
- // Dentro de GamePanel
+
     private Runnable onGameEnd;
 
     public GamePanel(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        
+
         setSize(800, 700);
         setPreferredSize(new java.awt.Dimension(800, 700));
         setLayout(null);
         setBackground(Color.BLACK);
-
         setFocusable(true);
 
         JPanel topPanel = createTopPanel();
@@ -52,15 +50,25 @@ public class GamePanel extends JPanel {
         spriteLabel2 = createSpriteLabel(player2, player2.getPositionX(), player2.getPositionY());
 
         add(topPanel);
-        add(bottomPanel); // Corrigido para bottomPanel
+        add(bottomPanel);
         add(spriteLabel1);
         add(spriteLabel2);
 
-        // Temporizador
+        // Temporizador atualizado
         gameTimer = new Timer(1000, e -> {
             if (!gameOver && timeRemaining > 0) {
                 timeRemaining--;
-                timerLabel.setText(timeRemaining + "s");
+
+                // Atualiza o texto do temporizador no formato mm:ss
+                int minutes = timeRemaining / 60;
+                int seconds = timeRemaining % 60;
+                timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
+
+                // Muda para vermelho nos últimos 10 segundos
+                if (timeRemaining <= 10) {
+                    timerLabel.setForeground(Color.RED);
+                }
+
                 if (timeRemaining <= 0) {
                     endGame();
                 }
@@ -90,10 +98,10 @@ public class GamePanel extends JPanel {
         topPanel.add(lifeBar2);
         topPanel.add(specialBar2);
 
-        timerLabel = new JLabel(timeRemaining + "s");
+        timerLabel = new JLabel(String.format("%02d:%02d", timeRemaining / 60, timeRemaining % 60));
         timerLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
         timerLabel.setForeground(Color.WHITE);
-        timerLabel.setBounds(369, 30, 61, 37);
+        timerLabel.setBounds(369, 30, 100, 37);
         topPanel.add(timerLabel);
 
         return topPanel;
@@ -194,14 +202,14 @@ public class GamePanel extends JPanel {
         repaint();
 
         if (onGameEnd != null) {
-            onGameEnd.run(); // <- chama o callback no fim do jogo
+            onGameEnd.run();
         }
     }
 
     public boolean isGameOver() { return gameOver; }
     public JLabel getSpriteLabel1() { return spriteLabel1; }
     public JLabel getSpriteLabel2() { return spriteLabel2; }
-    
+
     public void setOnGameEnd(Runnable onGameEnd) {
         this.onGameEnd = onGameEnd;
     }
