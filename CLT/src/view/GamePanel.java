@@ -7,12 +7,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import model.Player;
 import model.SpriteLoader;
 
 public class GamePanel extends JPanel {
-
     private Player player1;
     private Player player2;
 
@@ -23,38 +23,54 @@ public class GamePanel extends JPanel {
     private JProgressBar specialBar1;
     private JProgressBar specialBar2;
     private JLabel timerLabel;
-    private JLabel spriteLabel1; // JLabel para o sprite do jogador 1
-    private JLabel spriteLabel2; // JLabel para o sprite do jogador 2
+    private JLabel spriteLabel1;
+    private JLabel spriteLabel2;
+    private JLabel gameOverLabel;
 
     private int timeRemaining = 300; // 5 minutos (300 segundos)
+    private Timer gameTimer;
+    private boolean gameOver = false;
 
     public GamePanel(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
+        
         setSize(800, 700);
+        setPreferredSize(new java.awt.Dimension(800, 700));
         setLayout(null);
+        setBackground(Color.BLACK);
 
-        // Torna o painel focável para receber eventos de teclado
         setFocusable(true);
-        requestFocusInWindow();
 
         JPanel topPanel = createTopPanel();
         JPanel bottomPanel = createBottomPanel();
 
-        // Adicionar os sprites na área do jogo
         spriteLabel1 = createSpriteLabel(player1, player1.getPositionX(), player1.getPositionY());
         spriteLabel2 = createSpriteLabel(player2, player2.getPositionX(), player2.getPositionY());
 
         add(topPanel);
-        add(bottomPanel);
+        add(bottomPanel); // Corrigido para bottomPanel
         add(spriteLabel1);
         add(spriteLabel2);
+
+        // Temporizador
+        gameTimer = new Timer(1000, e -> {
+            if (!gameOver && timeRemaining > 0) {
+                timeRemaining--;
+                timerLabel.setText(timeRemaining + "s");
+                if (timeRemaining <= 0) {
+                    endGame();
+                }
+            }
+        });
+        gameTimer.start();
     }
 
     private JPanel createTopPanel() {
         JPanel topPanel = new JPanel();
         topPanel.setBounds(0, 0, 800, 98);
         topPanel.setLayout(null);
+        topPanel.setOpaque(false);
 
         nameCharLabel1 = createCharacterLabel(player1, 32, 11, SwingConstants.LEFT);
         lifeBar1 = createLifeBar(player1.getCharacter().getLife(), 32, 47);
@@ -67,13 +83,13 @@ public class GamePanel extends JPanel {
         topPanel.add(nameCharLabel1);
         topPanel.add(lifeBar1);
         topPanel.add(specialBar1);
-        
         topPanel.add(nameCharLabel2);
         topPanel.add(lifeBar2);
         topPanel.add(specialBar2);
 
         timerLabel = new JLabel(timeRemaining + "s");
         timerLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
+        timerLabel.setForeground(Color.WHITE);
         timerLabel.setBounds(369, 30, 61, 37);
         topPanel.add(timerLabel);
 
@@ -82,8 +98,9 @@ public class GamePanel extends JPanel {
 
     private JPanel createBottomPanel() {
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setBounds(364, 34, 72, 24);
+        bottomPanel.setBounds(364, 600, 72, 24);
         bottomPanel.setLayout(null);
+        bottomPanel.setOpaque(false);
         return bottomPanel;
     }
 
@@ -91,20 +108,25 @@ public class GamePanel extends JPanel {
         JLabel label = new JLabel(player.getCharacter().getName());
         label.setHorizontalAlignment(alignment);
         label.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        label.setForeground(Color.WHITE);
         label.setBounds(x, y, 250, 25);
         return label;
     }
 
     private JProgressBar createLifeBar(double life, int x, int y) {
         JProgressBar bar = new JProgressBar(0, (int) life);
+        bar.setValue((int) life);
         bar.setFont(new Font("Tahoma", Font.PLAIN, 20));
         bar.setBounds(x, y, 250, 14);
+        updateLifeBarColor(bar, life);
         return bar;
     }
 
     private JProgressBar createSpecialBar(int x, int y) {
         JProgressBar bar = new JProgressBar(0, 100);
+        bar.setValue(100);
         bar.setBounds(x, y, 150, 14);
+        bar.setForeground(Color.BLUE);
         return bar;
     }
 
@@ -116,45 +138,59 @@ public class GamePanel extends JPanel {
             spriteLabel.setBounds(x, y, spriteIcon.getIconWidth(), spriteIcon.getIconHeight());
         } else {
             spriteLabel = new JLabel("Sprite não carregado: " + player.getSpritePath());
+            spriteLabel.setForeground(Color.RED);
             spriteLabel.setBounds(x, y, 200, 50);
         }
         return spriteLabel;
     }
 
     private void updateLifeBarColor(JProgressBar lifeBar, double life) {
-        if (life >= 75) {
-            lifeBar.setForeground(Color.GREEN);
-        } else if (life >= 50) {
-            lifeBar.setForeground(Color.YELLOW);
-        } else if (life >= 25) {
-            lifeBar.setForeground(Color.ORANGE);
-        } else {
-            lifeBar.setForeground(Color.RED);
+        double percentage = (life / lifeBar.getMaximum()) * 100;
+        if (percentage >= 75) lifeBar.setForeground(Color.GREEN);
+        else if (percentage >= 50) lifeBar.setForeground(Color.YELLOW);
+        else if (percentage >= 25) lifeBar.setForeground(Color.ORANGE);
+        else lifeBar.setForeground(Color.RED);
+    }
+
+    public synchronized void updateGame() {
+        if (!gameOver) {
+            lifeBar1.setValue((int) player1.getCharacter().getLife());
+            lifeBar2.setValue((int) player2.getCharacter().getLife());
+
+            updateLifeBarColor(lifeBar1, player1.getCharacter().getLife());
+            updateLifeBarColor(lifeBar2, player2.getCharacter().getLife());
+
+            spriteLabel1.setLocation(player1.getPositionX(), player1.getPositionY());
+            spriteLabel2.setLocation(player2.getPositionX(), player2.getPositionY());
+
+            System.out.println("Sprite 1 - UI updated: (" + spriteLabel1.getX() + ", " + spriteLabel1.getY() + ")");
+            System.out.println("Sprite 2 - UI updated: (" + spriteLabel2.getX() + ", " + spriteLabel2.getY() + ")");
         }
     }
 
-    public void updateGame() {
-        lifeBar1.setValue((int) player1.getCharacter().getLife());
-        lifeBar2.setValue((int) player2.getCharacter().getLife());
+    private void endGame() {
+        gameOver = true;
+        gameTimer.stop();
+        String winner;
+        if (player1.getCharacter().getLife() > player2.getCharacter().getLife()) {
+            winner = player1.getCharacter().getName();
+        } else if (player2.getCharacter().getLife() > player1.getCharacter().getLife()) {
+            winner = player2.getCharacter().getName();
+        } else {
+            winner = "Empate";
+        }
 
-        updateLifeBarColor(lifeBar1, player1.getCharacter().getLife());
-        updateLifeBarColor(lifeBar2, player2.getCharacter().getLife());
-
-        // Atualizar as posições dos sprites
-        spriteLabel1.setLocation(player1.getPositionX(), player1.getPositionY());
-        spriteLabel2.setLocation(player2.getPositionX(), player2.getPositionY());
-
-        // Log para depuração
-        System.out.println("Sprite 1 - Posição atualizada: (" + spriteLabel1.getX() + ", " + spriteLabel1.getY() + ")");
-        System.out.println("Sprite 2 - Posição atualizada: (" + spriteLabel2.getX() + ", " + spriteLabel2.getY() + ")");
+        if (gameOverLabel != null) remove(gameOverLabel);
+        gameOverLabel = new JLabel("Fim de Jogo! Vencedor: " + winner);
+        gameOverLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
+        gameOverLabel.setForeground(Color.YELLOW);
+        gameOverLabel.setBounds(200, 300, 400, 50);
+        add(gameOverLabel);
+        revalidate();
+        repaint();
     }
 
-    // Getters para os JLabels dos sprites (usados pelo controlador)
-    public JLabel getSpriteLabel1() {
-        return spriteLabel1;
-    }
-
-    public JLabel getSpriteLabel2() {
-        return spriteLabel2;
-    }
+    public boolean isGameOver() { return gameOver; }
+    public JLabel getSpriteLabel1() { return spriteLabel1; }
+    public JLabel getSpriteLabel2() { return spriteLabel2; }
 }
