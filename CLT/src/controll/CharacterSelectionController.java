@@ -55,6 +55,7 @@ public class CharacterSelectionController {
 			GamePanel gamePanel = new GamePanel(player1, player2);
 			GamePanelController gamePanelController = new GamePanelController(gameWindow, gamePanel, player1, player2);
 	        gameWindow.setContentPane(gamePanel);
+	        gamePanel.requestFocusInWindow();
 	        gameWindow.revalidate();
 	        gameWindow.repaint();
 	    } 
