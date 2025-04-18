@@ -5,8 +5,8 @@ public class Player {
     // Positional attributes
     private int positionX;
     private int positionY;
-    private final int width = 80;
-    private final int height = 120;
+    private final int WIDTH = 80;
+    private final int HEIGHT = 120;
     
     // Player identification and appearance
     private int playerID;
@@ -71,11 +71,11 @@ public class Player {
     }
     
     public int getWidth() {
-        return width;
+        return WIDTH;
     }
     
     public int getHeight() {
-        return height;
+        return HEIGHT;
     }
     
     public int getPlayerID() {

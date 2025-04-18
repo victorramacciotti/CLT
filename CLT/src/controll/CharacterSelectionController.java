@@ -37,7 +37,7 @@ public class CharacterSelectionController {
             characterSelectionPanel.getLabelSubtitle().setText("Choose the character for Player 2");
             isPlayer1Turn = false;
         } else {
-        	this.player2 = new Player(1, 400, 630, character, "resources/sprites/" + character.getName() + "P2/" + character.getName() + "_pd.gif");
+        	this.player2 = new Player(1, 500, 630, character, "resources/sprites/" + character.getName() + "P2/" + character.getName() + "_pd.gif");
             characterSelectionPanel.getLabelSubtitle().setText("Ready! Click 'Select' to start.");
             characterSelectionPanel.getButtonStart().setEnabled(true);
         }
