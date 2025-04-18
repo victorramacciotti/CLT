@@ -5,6 +5,7 @@ import view.GamePanel;
 import view.GameWindow;
 
 import javax.swing.JLabel;
+import javax.swing.JProgressBar;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -22,7 +23,6 @@ public class GamePanelController implements KeyListener {
     private final PlayerThread player1Thread;
     private final PlayerThread player2Thread;
     private final GameTimer gameTimer;
-    private final JLabel timerLabel;
     
     // Constants
     private static final int MAX_GAME_TIME_SECONDS = 120; // 2 minutes
@@ -33,11 +33,10 @@ public class GamePanelController implements KeyListener {
         this.player1 = player1;
         this.player2 = player2;
         
-        this.player1Thread = new PlayerThread(player1, gamePanel);
-        this.player2Thread = new PlayerThread(player2, gamePanel);
+        this.player1Thread = new PlayerThread(player1, gamePanel, this);
+        this.player2Thread = new PlayerThread(player2, gamePanel, this);
         
-        this.timerLabel = setupTimerLabel();
-        this.gameTimer = new GameTimer(MAX_GAME_TIME_SECONDS, timerLabel);
+        this.gameTimer = new GameTimer(MAX_GAME_TIME_SECONDS, gamePanel.getTimerLabel());
         
         setupInput();
         startGameMonitoring();
@@ -46,17 +45,6 @@ public class GamePanelController implements KeyListener {
         
         player1Thread.start();
         player2Thread.start();
-    }
-
-    private JLabel setupTimerLabel() {
-        JLabel label = new JLabel(String.format("%03d", MAX_GAME_TIME_SECONDS));
-        label.setFont(new Font("Tahoma", Font.BOLD, 40));
-        label.setForeground(Color.WHITE);
-        label.setBounds(335, 10, 80, 30);
-        gamePanel.getTopPanel().add(label);
-        gamePanel.revalidate();
-        gamePanel.repaint();
-        return label;
     }
 
     private void setupInput() {
@@ -68,6 +56,7 @@ public class GamePanelController implements KeyListener {
         new Thread(() -> {
             while (!gamePanel.isGameOver()) {
                 checkGameEnd();
+                updateGame();
                 try {
                     Thread.sleep(100); // Check every 100ms
                 } catch (InterruptedException e) {
@@ -103,7 +92,7 @@ public class GamePanelController implements KeyListener {
     }
 
     private void endGame(String winner) {
-        gamePanel.showGameOver(winner);
+        showGameOver(winner);
         stopGame();
         gameTimer.stop();
     }
@@ -117,6 +106,54 @@ public class GamePanelController implements KeyListener {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    private void updateLifeBarColor(JProgressBar lifeBar, double life) {
+        double percentage = (life / lifeBar.getMaximum()) * 100;
+        if (percentage >= 75) {
+            lifeBar.setForeground(Color.GREEN);
+        } else if (percentage >= 50) {
+            lifeBar.setForeground(Color.YELLOW);
+        } else if (percentage >= 25) {
+            lifeBar.setForeground(Color.ORANGE);
+        } else {
+            lifeBar.setForeground(Color.RED);
+        }
+    }
+
+    public void updateGame() {
+        if (gamePanel.isGameOver()) {
+            return;
+        }
+        
+        gamePanel.getSpriteLabel1().setLocation(player1.getPositionX(), player1.getPositionY());
+        gamePanel.getSpriteLabel2().setLocation(player2.getPositionX(), player2.getPositionY());
+        
+        double life1 = player1.getCharacter().getLife();
+        double life2 = player2.getCharacter().getLife();
+        
+        JProgressBar lifeBar1 = gamePanel.getLifeBar1();
+        lifeBar1.setMaximum((int) player1.getCharacter().getMaxLife());
+        lifeBar1.setValue((int) life1);
+        updateLifeBarColor(lifeBar1, life1);
+        
+        JProgressBar lifeBar2 = gamePanel.getLifeBar2();
+        lifeBar2.setMaximum((int) player2.getCharacter().getMaxLife());
+        lifeBar2.setValue((int) life2);
+        updateLifeBarColor(lifeBar2, life2);
+        
+        gamePanel.revalidate();
+        gamePanel.repaint();
+    }
+
+    public void showGameOver(String winner) {
+        gamePanel.setGameOver(true);
+        
+        JLabel gameOverLabel = new JLabel("Game Over! Winner: " + winner);
+        gameOverLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
+        gameOverLabel.setForeground(Color.YELLOW);
+        gameOverLabel.setBounds(150, 300, 500, 50);
+        gamePanel.setGameOverLabel(gameOverLabel);
     }
 
     private boolean isInRange(Player attacker, Player opponent) {

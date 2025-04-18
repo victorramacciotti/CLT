@@ -33,6 +33,7 @@ public class GamePanel extends JPanel {
     private JLabel spriteLabel1;
     private JLabel spriteLabel2;
     private JLabel gameOverLabel;
+    private JLabel timerLabel;
 
     public GamePanel(Player player1, Player player2) {
         this.player1 = player1;
@@ -61,12 +62,23 @@ public class GamePanel extends JPanel {
         nameCharLabel2 = createCharacterLabel(player2, 500, 11, SwingConstants.RIGHT);
         lifeBar2 = createLifeBar(player2.getCharacter().getLife(), 500, 47);
         
+        timerLabel = createTimerLabel();
+        
         topPanel.add(nameCharLabel1);
         topPanel.add(lifeBar1);
         topPanel.add(nameCharLabel2);
         topPanel.add(lifeBar2);
+        topPanel.add(timerLabel);
         
         add(topPanel);
+    }
+
+    private JLabel createTimerLabel() {
+        JLabel label = new JLabel("120");
+        label.setFont(new Font("Tahoma", Font.BOLD, 40));
+        label.setForeground(Color.WHITE);
+        label.setBounds(335, 10, 80, 30);
+        return label;
     }
 
     private void buildPlayerSprites() {
@@ -97,7 +109,6 @@ public class GamePanel extends JPanel {
         bar.setValue((int) life);
         bar.setFont(new Font("Tahoma", Font.PLAIN, 20));
         bar.setBounds(x, y, 250, 14);
-        updateLifeBarColor(bar, life);
         return bar;
     }
 
@@ -118,56 +129,7 @@ public class GamePanel extends JPanel {
         return spriteLabel;
     }
 
-    private void updateLifeBarColor(JProgressBar lifeBar, double life) {
-        double percentage = (life / lifeBar.getMaximum()) * 100;
-        if (percentage >= 75) {
-            lifeBar.setForeground(Color.GREEN);
-        } else if (percentage >= 50) {
-            lifeBar.setForeground(Color.YELLOW);
-        } else if (percentage >= 25) {
-            lifeBar.setForeground(Color.ORANGE);
-        } else {
-            lifeBar.setForeground(Color.RED);
-        }
-    }
-
-    public void updateGame() {
-        if (gameOver) {
-            return;
-        }
-        
-        spriteLabel1.setLocation(player1.getPositionX(), player1.getPositionY());
-        spriteLabel2.setLocation(player2.getPositionX(), player2.getPositionY());
-        
-        double life1 = player1.getCharacter().getLife();
-        double life2 = player2.getCharacter().getLife();
-        
-        lifeBar1.setMaximum((int) player1.getCharacter().getMaxLife());
-        lifeBar1.setValue((int) life1);
-        updateLifeBarColor(lifeBar1, life1);
-        
-        lifeBar2.setMaximum((int) player2.getCharacter().getMaxLife());
-        lifeBar2.setValue((int) life2);
-        updateLifeBarColor(lifeBar2, life2);
-        
-        revalidate();
-        repaint();
-    }
-
-    public void showGameOver(String winner) {
-        gameOver = true;
-        
-        gameOverLabel = new JLabel("Game Over! Winner: " + winner);
-        gameOverLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-        gameOverLabel.setForeground(Color.YELLOW);
-        gameOverLabel.setBounds(150, 300, 500, 50);
-        add(gameOverLabel);
-        
-        revalidate();
-        repaint();
-    }
-    
-    // Getters
+    // Getters and setters
     public JLabel getSpriteLabel1() {
         return spriteLabel1;
     }
@@ -182,5 +144,36 @@ public class GamePanel extends JPanel {
     
     public boolean isGameOver() {
         return gameOver;
+    }
+    
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+    
+    public JLabel getTimerLabel() {
+        return timerLabel;
+    }
+    
+    public JProgressBar getLifeBar1() {
+        return lifeBar1;
+    }
+    
+    public JProgressBar getLifeBar2() {
+        return lifeBar2;
+    }
+    
+    public int getPanelWidth() {
+    	return PANEL_WIDTH;
+    }
+    
+    public int getPanelHeight() {
+    	return PANEL_HEIGHT;
+    }
+    
+    public void setGameOverLabel(JLabel gameOverLabel) {
+        this.gameOverLabel = gameOverLabel;
+        add(gameOverLabel);
+        revalidate();
+        repaint();
     }
 }
