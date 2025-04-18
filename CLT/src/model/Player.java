@@ -1,108 +1,118 @@
 package model;
 
 public class Player {
-	
-	private int positionX;
-	private int positionY;
-	private int width = 80;
-	private int height = 120;
-	
-	private int playerID;
-	private Character character;
-	private String spritePath;
-	
-	public Player() {}
-	
-	public Player(int playerID, int positionX, int positionY) {
-		this.playerID = playerID;
-		this.positionX = positionX;
-		this.positionY = positionY;
-	}
-	
-	public Player(int playerID, Character personagem, String spritePath) {
-		this.playerID = playerID;
-		this.character = personagem;
-		this.spritePath = spritePath;
-	}
-	
-	public void attack(Player opponent, String attackType, boolean opponentDefensed) {
-		float damage = 0;
-		
-		switch (attackType.toLowerCase()) {
-		case "weak":
-			damage = character.weakAttack(opponentDefensed, opponent.getCharacter().getDefense());
-			break;
-		case "strong":
-			damage = character.strongAttack(opponentDefensed, opponent.getCharacter().getDefense());
-			break;
-		case "special":
-			damage = character.specialAttack(opponentDefensed, opponent.getCharacter().getDefense());
-			break;
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + attackType);
-		}
-		
-		System.out.println(character.getName() + " atacou " + opponent.getCharacter().getName() + " com um ataque " + attackType + " causando " + damage + " de dano.");
-        opponent.getCharacter().takingDamage(damage);
-	}
-	
-	public void move(int x, int y) {
-		this.positionX += x;
-		this.positionY += y;
-	}
-	
-	public boolean isAlive() {
-        return character.getLife() > 0;
+    
+    // Positional attributes
+    private int positionX;
+    private int positionY;
+    private final int width = 80;
+    private final int height = 120;
+    
+    // Player identification and appearance
+    private int playerID;
+    private Character character;
+    private String spritePath;
+
+    public Player() {}
+    
+    public Player(int playerID, int positionX, int positionY) {
+        this.playerID = playerID;
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 
-	public int getPositionX() {
-		return positionX;
-	}
-
-	public int getPositionY() {
-		return positionY;
-	}
-	
-	public int getWidth() {
-		return positionX;
-	}
-	
-	public int getHeight() {
-		return positionY;
-	}
-	
-	public int getPlayerID() {
-		return playerID;
-	}
-
-	public Character getCharacter() {
-		return character;
-	}
-	
-	public String getSpritePath() {
-		return spritePath;
-	}
-
-	public void setPlayerID(int playerID) {
-		this.playerID = playerID;
-	}
-
-	public void setCharacter(Character personagem) {
-		this.character = personagem;
-	}
-	
-	public void setSpritePath(String spritePath) {
-		this.spritePath = spritePath;
-	}
-
-	public void setPositionX(int positionX) {
-		this.positionX = positionX;
-	}
-
-	public void setPositionY(int positionY) {
-		this.positionY = positionY;
-	}
-	
-	
-	
+    public Player(int playerID, Character character, String spritePath) {
+        this.playerID = playerID;
+        this.character = character;
+        this.spritePath = spritePath;
+    }
+    
+    public Player(int playerID, int positionX, int positionY, Character character, String spritePath) {
+        this.playerID = playerID;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.character = character;
+        this.spritePath = spritePath;
+    }
+    
+    public void attack(Player opponent, String attackType, boolean opponentDefensed) {
+        float damage;
+        
+        switch (attackType.toLowerCase()) {
+            case "weak":
+                damage = character.weakAttack(opponentDefensed, opponent.getCharacter().getDefense());
+                break;
+            case "strong":
+                damage = character.strongAttack(opponentDefensed, opponent.getCharacter().getDefense());
+                break;
+            case "special":
+                damage = character.specialAttack(opponentDefensed, opponent.getCharacter().getDefense());
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid attack type: " + attackType);
+        }
+        
+        System.out.println(character.getName() + " attacked " + opponent.getCharacter().getName() 
+            + " with a " + attackType + " attack causing " + damage + " damage.");
+        opponent.getCharacter().takingDamage(damage);
+    }
+    
+    public boolean isAlive() {
+        return character.getLife() > 0;
+    }
+    
+    // Getters
+    public int getPositionX() {
+        return positionX;
+    }
+    
+    public int getPositionY() {
+        return positionY;
+    }
+    
+    public int getWidth() {
+        return width;
+    }
+    
+    public int getHeight() {
+        return height;
+    }
+    
+    public int getPlayerID() {
+        return playerID;
+    }
+    
+    public Character getCharacter() {
+        return character;
+    }
+    
+    public String getSpritePath() {
+        return spritePath;
+    }
+    
+    // Setters
+    public void setPositionX(int positionX) {
+        this.positionX = positionX;
+    }
+    
+    public void setPositionY(int positionY) {
+        this.positionY = positionY;
+    }
+    
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
+    
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
+    
+    public void setSpritePath(String spritePath) {
+        this.spritePath = spritePath;
+    }
+    
+    public void move(int x, int y) {
+        this.positionX += x;
+        this.positionY += y;
+    }
 }

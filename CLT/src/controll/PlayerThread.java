@@ -11,16 +11,18 @@ public class PlayerThread extends Thread {
     private volatile boolean running;
     private static final int MOVE_SPEED = 5;
     private static final int GAME_TICK = 16;
+    private static final int GAME_GROUND = 100;
 
     private static final int GRAVITY = 1;
     private static final int JUMP_STRENGTH = -15;
     private int velocityY = 0;
-    private boolean onGround = false;
+    private boolean onGround = true;
 
     private volatile boolean upPressed;
     private volatile boolean downPressed;
     private volatile boolean leftPressed;
     private volatile boolean rightPressed;
+    boolean value = true;
 
     public PlayerThread(Player player, GamePanel gamePanel) {
         this.player = player;
@@ -47,7 +49,14 @@ public class PlayerThread extends Thread {
     }
 
     private void updatePlayer() {
-        int dx = 0;
+    	
+    	if(value) {
+    		System.out.println(player.getPositionX());
+    		System.out.println(player.getPositionY());
+    		value = false;
+    	}
+    	
+    	int dx = 0;
 
         if (leftPressed) dx -= MOVE_SPEED;
         if (rightPressed) dx += MOVE_SPEED;
@@ -82,8 +91,8 @@ public class PlayerThread extends Thread {
         }
 
         // "Chão"
-        if (player.getPositionY() > panelHeight - player.getHeight()) {
-            player.setPositionY(panelHeight - player.getHeight());
+        if (player.getPositionY() > panelHeight - player.getHeight() - GAME_GROUND) {
+            player.setPositionY(panelHeight - player.getHeight() - GAME_GROUND);
             velocityY = 0;
             onGround = true;
         } else {
