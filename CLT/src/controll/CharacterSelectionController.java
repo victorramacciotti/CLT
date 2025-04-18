@@ -17,11 +17,9 @@ public class CharacterSelectionController {
 
     public CharacterSelectionController() {}
 
-    public CharacterSelectionController(GameWindow gameWindow, CharacterSelectionPanel characterSelectionPanel, Player player1, Player player2) {
+    public CharacterSelectionController(GameWindow gameWindow, CharacterSelectionPanel characterSelectionPanel) {
         this.gameWindow = gameWindow;
         this.characterSelectionPanel = characterSelectionPanel;
-        this.player1 = player1;
-        this.player2 = player2;
         addEvents();
     }
 
@@ -35,13 +33,11 @@ public class CharacterSelectionController {
 
     private void selectCharacter(Character character) {
         if (isPlayer1Turn) {
-            player1.setCharacter(character);
-            player1.setSpritePath("resources/sprites/" + character.getName() + "P1/" + character.getName() + "_pd.gif");
+        	this.player1 = new Player(1, 200, 630, character, "resources/sprites/" + character.getName() + "P1/" + character.getName() + "_pd.gif");
             characterSelectionPanel.getLabelSubtitle().setText("Choose the character for Player 2");
             isPlayer1Turn = false;
         } else {
-            player2.setCharacter(character);
-            player2.setSpritePath("resources/sprites/" + character.getName() + "P2/" + character.getName() + "_pd.gif");
+        	this.player2 = new Player(1, 400, 630, character, "resources/sprites/" + character.getName() + "P2/" + character.getName() + "_pd.gif");
             characterSelectionPanel.getLabelSubtitle().setText("Ready! Click 'Select' to start.");
             characterSelectionPanel.getButtonStart().setEnabled(true);
         }
