@@ -15,18 +15,6 @@ public class Player {
 
     public Player() {}
     
-    public Player(int playerID, int positionX, int positionY) {
-        this.playerID = playerID;
-        this.positionX = positionX;
-        this.positionY = positionY;
-    }
-
-    public Player(int playerID, Character character, String spritePath) {
-        this.playerID = playerID;
-        this.character = character;
-        this.spritePath = spritePath;
-    }
-    
     public Player(int playerID, int positionX, int positionY, Character character, String spritePath) {
         this.playerID = playerID;
         this.positionX = positionX;
