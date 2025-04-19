@@ -81,9 +81,13 @@ public class GamePanelController implements KeyListener {
 
     private void endGameByTime() {
         String winner;
-        if (player1.getCharacter().getLife() > player2.getCharacter().getLife()) {
+        // Calcula a porcentagem de vida restante para cada personagem
+        double player1LifePercentage = (double) player1.getCharacter().getLife() / player1.getCharacter().getMaxLife();
+        double player2LifePercentage = (double) player2.getCharacter().getLife() / player2.getCharacter().getMaxLife();
+
+        if (player1LifePercentage > player2LifePercentage) {
             winner = player1.getCharacter().getName();
-        } else if (player2.getCharacter().getLife() > player1.getCharacter().getLife()) {
+        } else if (player2LifePercentage > player1LifePercentage) {
             winner = player2.getCharacter().getName();
         } else {
             winner = "Draw";
@@ -149,7 +153,9 @@ public class GamePanelController implements KeyListener {
     public void showGameOver(String winner) {
         gamePanel.setGameOver(true);
         
-        JLabel gameOverLabel = new JLabel("Game Over! Winner: " + winner);
+        // Personaliza o texto do label com base no valor de winner
+        String labelText = winner.equals("Draw") ? "Game Over! It's a Draw!" : "Game Over! Winner: " + winner;
+        JLabel gameOverLabel = new JLabel(labelText);
         gameOverLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
         gameOverLabel.setForeground(Color.YELLOW);
         gameOverLabel.setBounds(150, 300, 500, 50);
