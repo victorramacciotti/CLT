@@ -1,26 +1,64 @@
 package model;
 
+import javax.swing.ImageIcon;
+
 public class Player {
     
     // Positional attributes
     private int positionX;
     private int positionY;
-    private final int WIDTH = 80;
-    private final int HEIGHT = 120;
+    private final int WIDTH = 200;
+    private final int HEIGHT = 239;
     
     // Player identification and appearance
     private int playerID;
     private Character character;
     private String spritePath;
+    private String idleGif, kickGif, punchGif, walkGif, backwardsGif, jumpGif,  currentGif;
 
     public Player() {}
     
     public Player(int playerID, int positionX, int positionY, Character character, String spritePath) {
+    	
         this.playerID = playerID;
         this.positionX = positionX;
         this.positionY = positionY;
         this.character = character;
         this.spritePath = spritePath;
+        loadGifs(spritePath);
+        currentGif = idleGif;  
+    }
+    
+    private void loadGifs(String spritePath) {
+    	idleGif = spritePath;
+    	kickGif = spritePath.replace("idle", "kick");
+        punchGif = spritePath.replace("idle", "punch");
+        walkGif = spritePath.replace("idle", "walk"); 
+        backwardsGif = spritePath.replace("idle", "backwards");
+        jumpGif = spritePath.replace("idle", "jump");
+    }
+    
+    public void setState(String state) {
+        switch (state) {
+            case "idle":
+                currentGif = idleGif;
+                break;
+            case "walk":
+                currentGif = walkGif;
+                break;
+            case "kick":
+                currentGif = kickGif;
+                break;
+            case "punch":
+                currentGif = punchGif;
+                break;
+            case "backwards":
+                currentGif = backwardsGif;
+                break;
+            case "jump":
+                currentGif = jumpGif;
+                break;
+        }
     }
     
     public void attack(Player opponent, String attackType, boolean opponentDefensed) {
@@ -44,6 +82,7 @@ public class Player {
             + " with a " + attackType + " attack causing " + damage + " damage.");
         opponent.getCharacter().takingDamage(damage);
     }
+    
     
     public boolean isAlive() {
         return character.getLife() > 0;
@@ -76,6 +115,10 @@ public class Player {
     
     public String getSpritePath() {
         return spritePath;
+    }
+    
+    public String getCurrentGif() {
+        return currentGif;
     }
     
     // Setters

@@ -35,6 +35,8 @@ public class PlayerThread extends Thread {
     public void run() {
         while (running && !gamePanel.isGameOver()) {
             updatePlayer();
+            gamePanel.revalidate();
+            gamePanel.repaint();
             SwingUtilities.invokeLater(() -> {
                 controller.updateGame();
             });
@@ -50,7 +52,10 @@ public class PlayerThread extends Thread {
     private void updatePlayer() {
         int dx = 0;
 
-        if (leftPressed) dx -= MOVE_SPEED;
+        if (leftPressed) { 
+        	dx -= MOVE_SPEED;
+        	player.setSpritePath("resources/sprites/" + player.getCharacter().getName() + "/walking" + player.getCharacter().getName() + ".gif");
+        }
         if (rightPressed) dx += MOVE_SPEED;
 
         // Pulo: só pula se estiver no chão
@@ -65,6 +70,7 @@ public class PlayerThread extends Thread {
 
         player.move(dx, dy);
         checkBoundaries();
+ 
     }
 
     private void checkBoundaries() {
@@ -76,10 +82,10 @@ public class PlayerThread extends Thread {
         int playerHeight = player.getHeight();
 
         // Limites horizontais
-        if (player.getPositionX() < 0) {
-            player.setPositionX(0);
+        if (player.getPositionX() < -50) {
+            player.setPositionX(-50);
         }
-        if (player.getPositionX() > panelWidth - playerWidth) {
+        if (player.getPositionX() + playerWidth > panelWidth ) {
             player.setPositionX(panelWidth - playerWidth);
         }
 
@@ -91,6 +97,7 @@ public class PlayerThread extends Thread {
 
         // Chão
         int groundLevel = panelHeight - playerHeight - GAME_GROUND;
+        if (player.getCharacter().getName().equals("Murissoca")) groundLevel -= 30;
         if (player.getPositionY() > groundLevel) {
             player.setPositionY(groundLevel);
             velocityY = 0;

@@ -11,7 +11,7 @@ public class GameWindow extends JFrame {
     }
     
     private void initialize(CharacterSelectionPanel characterSelectionPanel) {
-        setSize(800, 700);
+        setSize(1000, 700);
         setTitle("CLT: Caos, Luta e Treta");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

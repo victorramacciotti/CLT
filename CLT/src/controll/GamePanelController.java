@@ -4,8 +4,11 @@ import model.Player;
 import view.GamePanel;
 import view.GameWindow;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
+import javax.swing.Timer;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -23,6 +26,7 @@ public class GamePanelController implements KeyListener {
     private final PlayerThread player1Thread;
     private final PlayerThread player2Thread;
     private final GameTimer gameTimer;
+    private Timer releaseDelayTimer;
     
     // Constants
     private static final int MAX_GAME_TIME_SECONDS = 120; // 2 minutes
@@ -158,7 +162,7 @@ public class GamePanelController implements KeyListener {
         JLabel gameOverLabel = new JLabel(labelText);
         gameOverLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
         gameOverLabel.setForeground(Color.YELLOW);
-        gameOverLabel.setBounds(150, 300, 500, 50);
+        gameOverLabel.setBounds(300, 300, 500, 50);
         gamePanel.setGameOverLabel(gameOverLabel);
     }
 
@@ -171,6 +175,7 @@ public class GamePanelController implements KeyListener {
     // Player 1 input setters
     public void setWPressed(boolean pressed) {
         player1Thread.setUpPressed(pressed);
+        
     }
     
     public void setSPressed(boolean pressed) {
@@ -179,10 +184,12 @@ public class GamePanelController implements KeyListener {
     
     public void setAPressed(boolean pressed) {
         player1Thread.setLeftPressed(pressed);
+        player1.setState("walking");
     }
     
     public void setDPressed(boolean pressed) {
         player1Thread.setRightPressed(pressed);
+        
     }
     
     // Player 2 input setters
@@ -213,24 +220,45 @@ public class GamePanelController implements KeyListener {
             // Player 1 movement
             case KeyEvent.VK_W:
                 setWPressed(true);
+                player1.setState("jump");
+                gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                gamePanel.getSpriteLabel1().revalidate();
+                gamePanel.getSpriteLabel1().repaint();
+                
                 break;
             case KeyEvent.VK_A:
                 setAPressed(true);
+                player1.setState("backwards");
+                gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                gamePanel.getSpriteLabel1().revalidate();
+                gamePanel.getSpriteLabel1().repaint();
                 break;
             case KeyEvent.VK_S:
                 setSPressed(true);
                 break;
             case KeyEvent.VK_D:
                 setDPressed(true);
+                player1.setState("walk");
+                gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                gamePanel.getSpriteLabel1().revalidate();
+                gamePanel.getSpriteLabel1().repaint();
                 break;
                 
             // Player 1 attacks
             case KeyEvent.VK_Q:
+            	player1.setState("punch");
+                gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                gamePanel.getSpriteLabel1().revalidate();
+                gamePanel.getSpriteLabel1().repaint();
                 if (isInRange(player1, player2)) {
                     player1.attack(player2, "weak", false);
                 }
                 break;
             case KeyEvent.VK_E:
+            	player1.setState("kick");
+                gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                gamePanel.getSpriteLabel1().revalidate();
+                gamePanel.getSpriteLabel1().repaint();
                 if (isInRange(player1, player2)) {
                     player1.attack(player2, "strong", false);
                 }
@@ -244,24 +272,44 @@ public class GamePanelController implements KeyListener {
             // Player 2 movement
             case KeyEvent.VK_UP:
                 setUpPressed(true);
+                player2.setState("jump");
+                gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                gamePanel.getSpriteLabel2().revalidate();
+                gamePanel.getSpriteLabel2().repaint();
                 break;
             case KeyEvent.VK_DOWN:
                 setDownPressed(true);
                 break;
             case KeyEvent.VK_LEFT:
                 setLeftPressed(true);
+                player2.setState("walk");
+                gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                gamePanel.getSpriteLabel2().revalidate();
+                gamePanel.getSpriteLabel2().repaint();
                 break;
             case KeyEvent.VK_RIGHT:
                 setRightPressed(true);
+                player2.setState("backwards");
+                gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                gamePanel.getSpriteLabel2().revalidate();
+                gamePanel.getSpriteLabel2().repaint();
                 break;
                 
             // Player 2 attacks
             case KeyEvent.VK_I:
+            	player2.setState("punch");
+                gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                gamePanel.getSpriteLabel2().revalidate();
+                gamePanel.getSpriteLabel2().repaint();
                 if (isInRange(player2, player1)) {
                     player2.attack(player1, "weak", false);
                 }
                 break;
             case KeyEvent.VK_O:
+            	player2.setState("kick");
+                gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                gamePanel.getSpriteLabel2().revalidate();
+                gamePanel.getSpriteLabel2().repaint();
                 if (isInRange(player2, player1)) {
                     player2.attack(player1, "strong", false);
                 }
@@ -283,27 +331,118 @@ public class GamePanelController implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 setWPressed(false);
+                player1.setState("idle");
+                gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                gamePanel.getSpriteLabel1().revalidate();
+                gamePanel.getSpriteLabel1().repaint();
                 break;
             case KeyEvent.VK_A:
                 setAPressed(false);
+                player1.setState("idle");
+                gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                gamePanel.getSpriteLabel1().revalidate();
+                gamePanel.getSpriteLabel1().repaint();
                 break;
             case KeyEvent.VK_S:
                 setSPressed(false);
                 break;
             case KeyEvent.VK_D:
                 setDPressed(false);
+                player1.setState("idle");
+                gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                gamePanel.getSpriteLabel1().revalidate();
+                gamePanel.getSpriteLabel1().repaint();
                 break;
             case KeyEvent.VK_UP:
                 setUpPressed(false);
+                player2.setState("idle");
+                gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                gamePanel.getSpriteLabel2().revalidate();
+                gamePanel.getSpriteLabel2().repaint();
                 break;
             case KeyEvent.VK_DOWN:
                 setDownPressed(false);
+                player2.setState("idle");
+                gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                gamePanel.getSpriteLabel2().revalidate();
+                gamePanel.getSpriteLabel2().repaint();
                 break;
             case KeyEvent.VK_LEFT:
                 setLeftPressed(false);
+                player2.setState("idle");
+                gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                gamePanel.getSpriteLabel2().revalidate();
+                gamePanel.getSpriteLabel2().repaint();
                 break;
             case KeyEvent.VK_RIGHT:
                 setRightPressed(false);
+                player2.setState("idle");
+                gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                gamePanel.getSpriteLabel2().revalidate();
+                gamePanel.getSpriteLabel2().repaint();
+                break;
+            case KeyEvent.VK_E:
+            	// Cancela qualquer timer anterior
+                if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
+                    releaseDelayTimer.stop();
+                }
+                
+                // Cria um novo timer que só roda depois de 500ms
+                releaseDelayTimer = new Timer(500, evt -> {
+                	player1.setState("idle");
+                    gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                    gamePanel.getSpriteLabel1().revalidate();
+                    gamePanel.getSpriteLabel1().repaint();
+                });
+
+                releaseDelayTimer.setRepeats(false); // Executa só uma vez
+                releaseDelayTimer.start();
+                
+                break;
+            case KeyEvent.VK_Q:
+            	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
+                    releaseDelayTimer.stop();
+                }
+                
+                releaseDelayTimer = new Timer(200, evt -> {
+                	player1.setState("idle");
+                    gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                    gamePanel.getSpriteLabel1().revalidate();
+                    gamePanel.getSpriteLabel1().repaint();
+                });
+
+                releaseDelayTimer.setRepeats(false); 
+                releaseDelayTimer.start();
+                break;
+            case KeyEvent.VK_I:
+            	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
+                    releaseDelayTimer.stop();
+                }
+                
+                releaseDelayTimer = new Timer(200, evt -> {
+                	player2.setState("idle");
+                    gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                    gamePanel.getSpriteLabel2().revalidate();
+                    gamePanel.getSpriteLabel2().repaint();
+                });
+
+                releaseDelayTimer.setRepeats(false); 
+                releaseDelayTimer.start();
+                break;
+            case KeyEvent.VK_O:
+            	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
+                    releaseDelayTimer.stop();
+                }
+                
+                releaseDelayTimer = new Timer(500, evt -> {
+                	player2.setState("idle");
+                    gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                    gamePanel.getSpriteLabel2().revalidate();
+                    gamePanel.getSpriteLabel2().repaint();
+                });
+
+                releaseDelayTimer.setRepeats(false); 
+                releaseDelayTimer.start();
                 break;
         }
     }

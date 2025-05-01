@@ -15,7 +15,7 @@ import java.awt.Font;
 public class GamePanel extends JPanel {
     
     // Panel dimensions and constants
-    private static final int PANEL_WIDTH = 800;
+    private static final int PANEL_WIDTH = 1000;
     private static final int PANEL_HEIGHT = 700;
     private static final int TOP_PANEL_HEIGHT = 100;
     
@@ -39,14 +39,16 @@ public class GamePanel extends JPanel {
         this.player1 = player1;
         this.player2 = player2;
         
+        
         setupPanel();
         buildTopPanel();
         buildPlayerSprites();
+        buildBackground();
     }
     
     private void setupPanel() {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        setBackground(Color.BLACK);
+    
         setLayout(null);
         setFocusable(true);
     }
@@ -59,8 +61,8 @@ public class GamePanel extends JPanel {
         nameCharLabel1 = createCharacterLabel(player1, 32, 11, SwingConstants.LEFT);
         lifeBar1 = createLifeBar(player1.getCharacter().getLife(), 32, 47);
         
-        nameCharLabel2 = createCharacterLabel(player2, 500, 11, SwingConstants.RIGHT);
-        lifeBar2 = createLifeBar(player2.getCharacter().getLife(), 500, 47);
+        nameCharLabel2 = createCharacterLabel(player2, 700, 11, SwingConstants.RIGHT);
+        lifeBar2 = createLifeBar(player2.getCharacter().getLife(), 700, 47);
         
         timerLabel = createTimerLabel();
         
@@ -71,13 +73,14 @@ public class GamePanel extends JPanel {
         topPanel.add(timerLabel);
         
         add(topPanel);
+        
     }
 
     private JLabel createTimerLabel() {
         JLabel label = new JLabel("120");
         label.setFont(new Font("Tahoma", Font.BOLD, 40));
         label.setForeground(Color.WHITE);
-        label.setBounds(335, 10, 80, 30);
+        label.setBounds(450, 10, 80, 40);
         return label;
     }
 
@@ -93,6 +96,14 @@ public class GamePanel extends JPanel {
         spriteLabel2.setLocation(player2.getPositionX(), player2.getPositionY());
         revalidate();
         repaint();
+    }
+    
+    private JLabel buildBackground() {
+    	ImageIcon backgroundImage = new ImageIcon("resources/backgrounds/provisorio.png");
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+        backgroundLabel.setSize(1000, 700);
+        add(backgroundLabel);
+        return backgroundLabel;
     }
 
     private JLabel createCharacterLabel(Player player, int x, int y, int alignment) {
@@ -113,7 +124,7 @@ public class GamePanel extends JPanel {
     }
 
     private JLabel createSpriteLabel(Player player) {       
-        ImageIcon spriteIcon = SpriteLoader.loadImage(player.getSpritePath());
+        ImageIcon spriteIcon = SpriteLoader.loadImage(player.getCurrentGif());
         JLabel spriteLabel;
         
         if (spriteIcon != null) {

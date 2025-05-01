@@ -24,20 +24,21 @@ public class CharacterSelectionController {
     }
 
     private void addEvents() {
-        characterSelectionPanel.getButtonPerson1().addActionListener(e -> selectCharacter(new Character("Akuma", 100, 20, 5)));
-        characterSelectionPanel.getButtonPerson2().addActionListener(e -> selectCharacter(new Character("Cable", 100, 18, 6)));
-        characterSelectionPanel.getButtonPerson3().addActionListener(e -> selectCharacter(new Character("Chunli", 95, 18, 7)));
-        characterSelectionPanel.getButtonPerson4().addActionListener(e -> selectCharacter(new Character("Doom", 110, 22, 4)));
+        characterSelectionPanel.getButtonPerson1().addActionListener(e -> selectCharacter(new Character("Nita", 100, 20, 5)));
+        characterSelectionPanel.getButtonPerson2().addActionListener(e -> selectCharacter(new Character("Isagram", 100, 18, 6)));
+        characterSelectionPanel.getButtonPerson3().addActionListener(e -> selectCharacter(new Character("Murissoca", 95, 18, 7)));
+        characterSelectionPanel.getButtonPerson4().addActionListener(e -> selectCharacter(new Character("Teletony", 110, 22, 4)));
+        characterSelectionPanel.getButtonPerson5().addActionListener(e -> selectCharacter(new Character("Lule", 90, 22, 4)));
         characterSelectionPanel.getButtonStart().addActionListener(e -> startGame());
     }
 
     private void selectCharacter(Character character) {
         if (isPlayer1Turn) {
-        	this.player1 = new Player(1, 200, 630, character, "resources/sprites/" + character.getName() + "P1/" + character.getName() + "_pd.gif");
+        	this.player1 = new Player(1, 10, 630, character, "resources/sprites/" + character.getName() + "/idle" + character.getName() + ".gif");
             characterSelectionPanel.getLabelSubtitle().setText("Choose the character for Player 2");
             isPlayer1Turn = false;
         } else {
-        	this.player2 = new Player(1, 500, 630, character, "resources/sprites/" + character.getName() + "P2/" + character.getName() + "_pd.gif");
+        	this.player2 = new Player(1, 690, 630, character, "resources/sprites/" + character.getName() + "/idle" + character.getName() + "Flipped.gif");
             characterSelectionPanel.getLabelSubtitle().setText("Ready! Click 'Select' to start.");
             characterSelectionPanel.getButtonStart().setEnabled(true);
         }
