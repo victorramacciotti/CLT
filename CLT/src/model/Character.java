@@ -6,15 +6,16 @@ public class Character {
     private float maxLife;
     private float life;
     private float strength;
-    
-    public Character() {
-    }
+    private final float WIDTH;
+    private final float HEIGHT;
 
-    public Character(String name, float maxLife, float strength, float defense) {
+    public Character(String name, float maxLife, float strength, float defense, int width, int height) {
         this.name = name;
         this.maxLife = maxLife;
         this.life = maxLife;
         this.strength = strength;
+        this.WIDTH = width;
+        this.HEIGHT = height;
     }
     
     public float takingDamage(float damage) {
@@ -55,7 +56,15 @@ public class Character {
         return strength;
     }
     
-    // Setters
+    public float getWIDTH() {
+		return WIDTH;
+	}
+
+	public float getHEIGHT() {
+		return HEIGHT;
+	}
+
+	// Setters
     public void setLife(float life) {
         this.life = Math.max(life, 0);
     }

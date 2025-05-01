@@ -5,21 +5,18 @@ public class Player {
     // Positional attributes
     private int positionX;
     private int positionY;
-    private final int WIDTH = 200;
-    private final int HEIGHT = 239;
     
     // Player identification and appearance
     private Character character;
     private String spritePath;
     private String idleGif, kickGif, punchGif, walkGif, backwardsGif, jumpGif,  currentGif;
-
-    public Player() {}
     
     public Player(int positionX, int positionY, Character character, String spritePath) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.character = character;
         this.spritePath = spritePath;
+        
         loadGifs(spritePath);
         currentGif = idleGif;  
     }
@@ -86,14 +83,6 @@ public class Player {
     
     public int getPositionY() {
         return positionY;
-    }
-    
-    public int getWidth() {
-        return WIDTH;
-    }
-    
-    public int getHeight() {
-        return HEIGHT;
     }
     
     public Character getCharacter() {

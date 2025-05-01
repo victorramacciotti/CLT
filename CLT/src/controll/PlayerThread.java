@@ -78,8 +78,8 @@ public class PlayerThread extends Thread {
     	int panelWidth = gamePanel.getPanelWidth();
         int panelHeight = gamePanel.getPanelHeight();
         
-        int playerWidth = player.getWidth();
-        int playerHeight = player.getHeight();
+        int playerWidth = (int) player.getCharacter().getWIDTH();
+        int playerHeight = (int) player.getCharacter().getHEIGHT();
 
         // Limites horizontais
         if (player.getPositionX() < -50) {
