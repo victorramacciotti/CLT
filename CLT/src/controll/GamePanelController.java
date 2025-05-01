@@ -162,7 +162,7 @@ public class GamePanelController implements KeyListener {
         String labelText = winner.equals("Draw") ? "Game Over! It's a Draw!" : "Game Over! Winner: " + winner;
         JLabel gameOverLabel = new JLabel(labelText);
         gameOverLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-        gameOverLabel.setForeground(Color.YELLOW);
+        gameOverLabel.setForeground(Color.WHITE);
         gameOverLabel.setBounds(300, 300, 500, 50);
         gamePanel.setGameOverLabel(gameOverLabel);
     }
