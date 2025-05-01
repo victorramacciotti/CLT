@@ -184,6 +184,7 @@ public class GamePanel extends JPanel {
     public void setGameOverLabel(JLabel gameOverLabel) {
         this.gameOverLabel = gameOverLabel;
         add(gameOverLabel);
+        setComponentZOrder(gameOverLabel, 0);
         revalidate();
         repaint();
     }

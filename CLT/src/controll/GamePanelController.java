@@ -184,7 +184,6 @@ public class GamePanelController implements KeyListener {
     
     public void setAPressed(boolean pressed) {
         player1Thread.setLeftPressed(pressed);
-        player1.setState("walking");
     }
     
     public void setDPressed(boolean pressed) {
