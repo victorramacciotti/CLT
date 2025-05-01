@@ -262,11 +262,6 @@ public class GamePanelController implements KeyListener {
                     player1.attack(player2, "strong", false);
                 }
                 break;
-            case KeyEvent.VK_R:
-                if (isInRange(player1, player2)) {
-                    player1.attack(player2, "special", false);
-                }
-                break;
                 
             // Player 2 movement
             case KeyEvent.VK_UP:
@@ -311,11 +306,6 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel2().repaint();
                 if (isInRange(player2, player1)) {
                     player2.attack(player1, "strong", false);
-                }
-                break;
-            case KeyEvent.VK_P:
-                if (isInRange(player2, player1)) {
-                    player2.attack(player1, "special", false);
                 }
                 break;
         }

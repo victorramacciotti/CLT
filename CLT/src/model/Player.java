@@ -1,7 +1,5 @@
 package model;
 
-import javax.swing.ImageIcon;
-
 public class Player {
     
     // Positional attributes
@@ -66,13 +64,10 @@ public class Player {
         
         switch (attackType.toLowerCase()) {
             case "weak":
-                damage = character.weakAttack(opponentDefensed, opponent.getCharacter().getDefense());
+                damage = character.punchAttack();
                 break;
             case "strong":
-                damage = character.strongAttack(opponentDefensed, opponent.getCharacter().getDefense());
-                break;
-            case "special":
-                damage = character.specialAttack(opponentDefensed, opponent.getCharacter().getDefense());
+                damage = character.kickAttack();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid attack type: " + attackType);
@@ -82,7 +77,6 @@ public class Player {
             + " with a " + attackType + " attack causing " + damage + " damage.");
         opponent.getCharacter().takingDamage(damage);
     }
-    
     
     public boolean isAlive() {
         return character.getLife() > 0;

@@ -6,7 +6,6 @@ public class Character {
     private float maxLife;
     private float life;
     private float strength;
-    private float defense;
     
     public Character() {
     }
@@ -16,7 +15,6 @@ public class Character {
         this.maxLife = maxLife;
         this.life = maxLife;
         this.strength = strength;
-        this.defense = defense;
     }
     
     public float takingDamage(float damage) {
@@ -27,24 +25,17 @@ public class Character {
         return this.life;
     }
 
-    public float calculateDamage(float baseStrength, float enemyDefense, boolean defensed, float multiplier) {
+    public float calculateDamage(float baseStrength, float multiplier) {
         float damage = baseStrength * multiplier;
-        if (defensed) {
-            damage -= enemyDefense;
-        }
         return Math.max(damage, 0);
     }
 
-    public float weakAttack(boolean defensed, float enemyDefense) {
-        return calculateDamage(strength, enemyDefense, defensed, 1.0f);
+    public float punchAttack() {
+        return calculateDamage(strength, 1.0f);
     }
     
-    public float strongAttack(boolean defensed, float enemyDefense) {
-        return calculateDamage(strength, enemyDefense, defensed, 1.5f);
-    }
-    
-    public float specialAttack(boolean defensed, float enemyDefense) {
-        return calculateDamage(strength, enemyDefense, defensed, 2.0f);
+    public float kickAttack() {
+        return calculateDamage(strength, 1.2f);
     }
     
     // Getters
@@ -64,24 +55,8 @@ public class Character {
         return strength;
     }
     
-    public float getDefense() {
-        return defense;
-    }
-    
     // Setters
-    public void setName(String name) {
-        this.name = name;
-    }
-    
     public void setLife(float life) {
         this.life = Math.max(life, 0);
-    }
-    
-    public void setStrength(float strength) {
-        this.strength = strength;
-    }
-    
-    public void setDefense(float defense) {
-        this.defense = defense;
     }
 }
