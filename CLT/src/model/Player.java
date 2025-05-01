@@ -56,7 +56,7 @@ public class Player {
         }
     }
     
-    public void attack(Player opponent, String attackType, boolean opponentDefensed) {
+    public void attack(Player opponent, String attackType) {
         float damage;
         
         switch (attackType.toLowerCase()) {

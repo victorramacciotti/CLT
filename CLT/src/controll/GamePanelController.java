@@ -157,6 +157,7 @@ public class GamePanelController implements KeyListener {
     public void showGameOver(String winner) {
         gamePanel.setGameOver(true);
         
+        							/* ADICIONAR ESSE PARTE NO VIEW */
         // Personaliza o texto do label com base no valor de winner
         String labelText = winner.equals("Draw") ? "Game Over! It's a Draw!" : "Game Over! Winner: " + winner;
         JLabel gameOverLabel = new JLabel(labelText);
@@ -250,7 +251,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel1().revalidate();
                 gamePanel.getSpriteLabel1().repaint();
                 if (isInRange(player1, player2)) {
-                    player1.attack(player2, "punch", false);
+                    player1.attack(player2, "punch");
                 }
                 break;
             case KeyEvent.VK_E:
@@ -259,7 +260,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel1().revalidate();
                 gamePanel.getSpriteLabel1().repaint();
                 if (isInRange(player1, player2)) {
-                    player1.attack(player2, "kick", false);
+                    player1.attack(player2, "kick");
                 }
                 break;
                 
@@ -296,7 +297,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel2().revalidate();
                 gamePanel.getSpriteLabel2().repaint();
                 if (isInRange(player2, player1)) {
-                    player2.attack(player1, "punch", false);
+                    player2.attack(player1, "punch");
                 }
                 break;
             case KeyEvent.VK_O:
@@ -305,7 +306,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel2().revalidate();
                 gamePanel.getSpriteLabel2().repaint();
                 if (isInRange(player2, player1)) {
-                    player2.attack(player1, "kick", false);
+                    player2.attack(player1, "kick");
                 }
                 break;
         }
