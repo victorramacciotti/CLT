@@ -9,16 +9,13 @@ public class Player {
     private final int HEIGHT = 239;
     
     // Player identification and appearance
-    private int playerID;
     private Character character;
     private String spritePath;
     private String idleGif, kickGif, punchGif, walkGif, backwardsGif, jumpGif,  currentGif;
 
     public Player() {}
     
-    public Player(int playerID, int positionX, int positionY, Character character, String spritePath) {
-    	
-        this.playerID = playerID;
+    public Player(int positionX, int positionY, Character character, String spritePath) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.character = character;
@@ -63,10 +60,10 @@ public class Player {
         float damage;
         
         switch (attackType.toLowerCase()) {
-            case "weak":
+            case "punch":
                 damage = character.punchAttack();
                 break;
-            case "strong":
+            case "kick":
                 damage = character.kickAttack();
                 break;
             default:
@@ -99,10 +96,6 @@ public class Player {
         return HEIGHT;
     }
     
-    public int getPlayerID() {
-        return playerID;
-    }
-    
     public Character getCharacter() {
         return character;
     }
@@ -122,14 +115,6 @@ public class Player {
     
     public void setPositionY(int positionY) {
         this.positionY = positionY;
-    }
-    
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
-    }
-    
-    public void setCharacter(Character character) {
-        this.character = character;
     }
     
     public void setSpritePath(String spritePath) {

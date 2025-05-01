@@ -250,7 +250,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel1().revalidate();
                 gamePanel.getSpriteLabel1().repaint();
                 if (isInRange(player1, player2)) {
-                    player1.attack(player2, "weak", false);
+                    player1.attack(player2, "punch", false);
                 }
                 break;
             case KeyEvent.VK_E:
@@ -259,7 +259,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel1().revalidate();
                 gamePanel.getSpriteLabel1().repaint();
                 if (isInRange(player1, player2)) {
-                    player1.attack(player2, "strong", false);
+                    player1.attack(player2, "kick", false);
                 }
                 break;
                 
@@ -296,7 +296,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel2().revalidate();
                 gamePanel.getSpriteLabel2().repaint();
                 if (isInRange(player2, player1)) {
-                    player2.attack(player1, "weak", false);
+                    player2.attack(player1, "punch", false);
                 }
                 break;
             case KeyEvent.VK_O:
@@ -305,7 +305,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel2().revalidate();
                 gamePanel.getSpriteLabel2().repaint();
                 if (isInRange(player2, player1)) {
-                    player2.attack(player1, "strong", false);
+                    player2.attack(player1, "kick", false);
                 }
                 break;
         }

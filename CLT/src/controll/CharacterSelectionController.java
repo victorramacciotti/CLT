@@ -34,11 +34,11 @@ public class CharacterSelectionController {
 
     private void selectCharacter(Character character) {
         if (isPlayer1Turn) {
-        	this.player1 = new Player(1, 10, 630, character, "resources/sprites/" + character.getName() + "/idle" + character.getName() + ".gif");
+        	this.player1 = new Player(10, 630, character, "resources/sprites/" + character.getName() + "/idle" + character.getName() + ".gif");
             characterSelectionPanel.getLabelSubtitle().setText("Choose the character for Player 2");
             isPlayer1Turn = false;
         } else {
-        	this.player2 = new Player(1, 690, 630, character, "resources/sprites/" + character.getName() + "/idle" + character.getName() + "Flipped.gif");
+        	this.player2 = new Player(690, 630, character, "resources/sprites/" + character.getName() + "/idle" + character.getName() + "Flipped.gif");
             characterSelectionPanel.getLabelSubtitle().setText("Ready! Click 'Select' to start.");
             characterSelectionPanel.getButtonStart().setEnabled(true);
         }
