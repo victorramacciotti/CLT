@@ -9,7 +9,7 @@ public class Player {
     // Player identification and appearance
     private Character character;
     private String spritePath;
-    private String idleGif, kickGif, punchGif, walkGif, backwardsGif, jumpGif,  currentGif;
+    private String idleGif, kickGif, punchGif, walkGif, backwardsGif, jumpGif,  currentGif, comboGif;
     
     public Player(int positionX, int positionY, Character character, String spritePath) {
         this.positionX = positionX;
@@ -28,6 +28,7 @@ public class Player {
         walkGif = spritePath.replace("idle", "walk"); 
         backwardsGif = spritePath.replace("idle", "backwards");
         jumpGif = spritePath.replace("idle", "jump");
+        comboGif = spritePath.replace("idle", "combo");
     }
     
     public void setState(String state) {
@@ -50,6 +51,9 @@ public class Player {
             case "jump":
                 currentGif = jumpGif;
                 break;
+            case "comboAttack":
+                currentGif = comboGif;
+                break;
         }
     }
     
@@ -62,6 +66,9 @@ public class Player {
                 break;
             case "kick":
                 damage = character.kickAttack();
+                break;
+            case "combo":
+                damage = character.comboAttack();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid attack type: " + attackType);

@@ -181,8 +181,11 @@ public class GamePanel extends JPanel {
     	return PANEL_HEIGHT;
     }
     
-    public void setGameOverLabel(JLabel gameOverLabel) {
-        this.gameOverLabel = gameOverLabel;
+    public void setGameOverLabel(String gameOverString) {
+        JLabel gameOverLabel = new JLabel(gameOverString);
+        gameOverLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
+        gameOverLabel.setForeground(Color.WHITE);
+        gameOverLabel.setBounds(300, 300, 500, 50);
         add(gameOverLabel);
         setComponentZOrder(gameOverLabel, 0);
         revalidate();

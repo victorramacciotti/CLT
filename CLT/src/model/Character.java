@@ -39,6 +39,10 @@ public class Character {
         return calculateDamage(strength, 1.2f);
     }
     
+    public float comboAttack() {
+        return calculateDamage(strength, 1.5f);
+    }
+    
     // Getters
     public String getName() {
         return name;

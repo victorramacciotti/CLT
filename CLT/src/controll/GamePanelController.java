@@ -13,6 +13,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GamePanelController implements KeyListener {
     
@@ -21,6 +23,7 @@ public class GamePanelController implements KeyListener {
     private final GamePanel gamePanel;
     private final Player player1;
     private final Player player2;
+    private Set<Integer> pressedKeys = new HashSet<Integer>();
     
     // Game state
     private final PlayerThread player1Thread;
@@ -160,11 +163,7 @@ public class GamePanelController implements KeyListener {
         							/* ADICIONAR ESSE PARTE NO VIEW */
         // Personaliza o texto do label com base no valor de winner
         String labelText = winner.equals("Draw") ? "Game Over! It's a Draw!" : "Game Over! Winner: " + winner;
-        JLabel gameOverLabel = new JLabel(labelText);
-        gameOverLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-        gameOverLabel.setForeground(Color.WHITE);
-        gameOverLabel.setBounds(300, 300, 500, 50);
-        gamePanel.setGameOverLabel(gameOverLabel);
+        gamePanel.setGameOverLabel(labelText);
     }
 
     private boolean isInRange(Player attacker, Player opponent) {
@@ -215,6 +214,7 @@ public class GamePanelController implements KeyListener {
         if (gamePanel.isGameOver()) {
             return;
         }
+        pressedKeys.add(e.getKeyCode());
         
         switch (e.getKeyCode()) {
             // Player 1 movement
@@ -263,6 +263,30 @@ public class GamePanelController implements KeyListener {
                     player1.attack(player2, "kick");
                 }
                 break;
+            case KeyEvent.VK_R:
+            	if(pressedKeys.contains(KeyEvent.VK_F)) {
+                	player1.setState("comboAttack");
+                	gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                    gamePanel.getSpriteLabel1().revalidate();
+                    gamePanel.getSpriteLabel1().repaint();
+                    
+                    if (isInRange(player1, player2)) {
+                        player1.attack(player2, "combo");
+                    }
+                }
+            	break;
+            case KeyEvent.VK_F:
+            	if(pressedKeys.contains(KeyEvent.VK_R)) {
+                	player1.setState("comboAttack");
+                	gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                    gamePanel.getSpriteLabel1().revalidate();
+                    gamePanel.getSpriteLabel1().repaint();
+                    
+                    if (isInRange(player1, player2)) {
+                        player1.attack(player2, "combo");
+                    }
+                }
+            	break;
                 
             // Player 2 movement
             case KeyEvent.VK_UP:
@@ -309,6 +333,30 @@ public class GamePanelController implements KeyListener {
                     player2.attack(player1, "kick");
                 }
                 break;
+            case KeyEvent.VK_K:
+            	if(pressedKeys.contains(KeyEvent.VK_L)) {
+                	player2.setState("comboAttack");
+                	gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                    gamePanel.getSpriteLabel2().revalidate();
+                    gamePanel.getSpriteLabel2().repaint();
+                    
+                    if (isInRange(player1, player2)) {
+                        player2.attack(player1, "combo");
+                    }
+                }
+            	break;
+            case KeyEvent.VK_L:
+            	if(pressedKeys.contains(KeyEvent.VK_K)) {
+                	player2.setState("comboAttack");
+                	gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                    gamePanel.getSpriteLabel2().revalidate();
+                    gamePanel.getSpriteLabel2().repaint();
+                    
+                    if (isInRange(player1, player2)) {
+                        player2.attack(player1, "combo");
+                    }
+                }
+            	break;
         }
     }
     
@@ -317,6 +365,9 @@ public class GamePanelController implements KeyListener {
         if (gamePanel.isGameOver()) {
             return;
         }
+        
+        // Remove a tecla liberada do conjunto
+        pressedKeys.remove(e.getKeyCode());
         
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
@@ -387,9 +438,23 @@ public class GamePanelController implements KeyListener {
 
                 releaseDelayTimer.setRepeats(false); // Executa só uma vez
                 releaseDelayTimer.start();
-                
                 break;
             case KeyEvent.VK_Q:
+            	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
+                    releaseDelayTimer.stop();
+                }
+                
+                releaseDelayTimer = new Timer(200, evt -> {
+                	player1.setState("idle");
+                    gamePanel.getSpriteLabel1().setIcon(new ImageIcon(player1.getCurrentGif()));
+                    gamePanel.getSpriteLabel1().revalidate();
+                    gamePanel.getSpriteLabel1().repaint();
+                });
+
+                releaseDelayTimer.setRepeats(false); 
+                releaseDelayTimer.start();
+                break;
+            case KeyEvent.VK_R:
             	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
                     releaseDelayTimer.stop();
                 }
@@ -420,6 +485,21 @@ public class GamePanelController implements KeyListener {
                 releaseDelayTimer.start();
                 break;
             case KeyEvent.VK_O:
+            	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
+                    releaseDelayTimer.stop();
+                }
+                
+                releaseDelayTimer = new Timer(500, evt -> {
+                	player2.setState("idle");
+                    gamePanel.getSpriteLabel2().setIcon(new ImageIcon(player2.getCurrentGif()));
+                    gamePanel.getSpriteLabel2().revalidate();
+                    gamePanel.getSpriteLabel2().repaint();
+                });
+
+                releaseDelayTimer.setRepeats(false); 
+                releaseDelayTimer.start();
+                break;
+            case KeyEvent.VK_K:
             	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
                     releaseDelayTimer.stop();
                 }
