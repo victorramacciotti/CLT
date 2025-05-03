@@ -160,7 +160,7 @@ public class GamePanelController implements KeyListener {
     public void showGameOver(String winner) {
         gamePanel.setGameOver(true);
         
-        							/* ADICIONAR ESSE PARTE NO VIEW */
+        							
         // Personaliza o texto do label com base no valor de winner
         String labelText = winner.equals("Draw") ? "Game Over! It's a Draw!" : "Game Over! Winner: " + winner;
         gamePanel.setGameOverLabel(labelText);
