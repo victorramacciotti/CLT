@@ -1,5 +1,9 @@
 package controll;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.SwingUtilities;
 
 import model.Player;
@@ -13,6 +17,9 @@ public class PlayerThread extends Thread {
     private static final int MOVE_SPEED = 5;
     private static final int GAME_TICK = 16;
     private static final int GAME_GROUND = 200;
+    
+    private static final int COMBO_DURATION = 500; // 500ms de duração do golpe especial
+    private boolean executingCombo = false;
 
     private static final int GRAVITY = 1;
     private static final int JUMP_STRENGTH = -15;
@@ -105,6 +112,33 @@ public class PlayerThread extends Thread {
         } else {
             onGround = false;
         }
+    }
+    
+    public void executeCombo() {
+        if (executingCombo) return;
+
+        executingCombo = true;
+        updateSprite("Combo");
+
+        // Cria um agendador de tarefas
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+        // Agenda a tarefa para resetar após COMBO_DURATION milissegundos
+        scheduler.schedule(() -> {
+            executingCombo = false;
+            SwingUtilities.invokeLater(() -> {
+                updateSprite("idle");
+            });
+            scheduler.shutdown(); // Encerra o scheduler
+        }, COMBO_DURATION, TimeUnit.MILLISECONDS);
+    }
+    
+    private void updateSprite(String state) {
+        String path = "resources/sprites/" + 
+                     player.getCharacter().getName() + "/" + 
+                     state + 
+                     player.getCharacter().getName() + ".gif";
+        player.setSpritePath(path);
     }
 
     public void setUpPressed(boolean upPressed) { this.upPressed = upPressed; }
