@@ -9,14 +9,14 @@ public class Player {
     // Player identification and appearance
     private Character character;
     private String spritePath;
-    private String idleGif, kickGif, punchGif, walkGif, backwardsGif, jumpGif,  currentGif, comboGif;
+    private String idleGif, kickGif, punchGif, walkGif, backwardsGif, jumpGif,  currentGif, comboGif, state;
     
     public Player(int positionX, int positionY, Character character, String spritePath) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.character = character;
         this.spritePath = spritePath;
-        
+        this.state = "idle";
         loadGifs(spritePath);
         currentGif = idleGif;  
     }
@@ -32,6 +32,9 @@ public class Player {
     }
     
     public void setState(String state) {
+    	
+    	this.state = state;
+    
         switch (state) {
             case "idle":
                 currentGif = idleGif;
@@ -104,6 +107,10 @@ public class Player {
         return currentGif;
     }
     
+    public String getState() {
+        return state;
+    }
+        
     // Setters
     public void setPositionX(int positionX) {
         this.positionX = positionX;

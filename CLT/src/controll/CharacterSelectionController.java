@@ -24,9 +24,9 @@ public class CharacterSelectionController {
     }
 
     private void addEvents() {
-        characterSelectionPanel.getButtonPerson1().addActionListener(e -> selectCharacter(new Character("Nita", 100, 20, 5, 204, 239)));
+        characterSelectionPanel.getButtonPerson1().addActionListener(e -> selectCharacter(new Character("Nita", 120, 20, 5, 204, 239)));
         characterSelectionPanel.getButtonPerson2().addActionListener(e -> selectCharacter(new Character("Isagram", 100, 18, 6, 239, 239)));
-        characterSelectionPanel.getButtonPerson3().addActionListener(e -> selectCharacter(new Character("Murissoca", 95, 18, 7, 270, 239)));
+        characterSelectionPanel.getButtonPerson3().addActionListener(e -> selectCharacter(new Character("Murissoca", 80, 18, 7, 270, 239)));
         characterSelectionPanel.getButtonPerson4().addActionListener(e -> selectCharacter(new Character("Teletony", 110, 22, 4, 239, 239)));
         characterSelectionPanel.getButtonPerson5().addActionListener(e -> selectCharacter(new Character("Lule", 90, 22, 4, 239, 239)));
         characterSelectionPanel.getButtonStart().addActionListener(e -> startGame());

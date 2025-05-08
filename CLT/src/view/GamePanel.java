@@ -141,12 +141,9 @@ public class GamePanel extends JPanel {
     }
 
     // Getters and setters
-    public JLabel getSpriteLabel1() {
-        return spriteLabel1;
-    }
-    
-    public JLabel getSpriteLabel2() {
-        return spriteLabel2;
+    public JLabel getSpriteLabel(Player player) {
+    	if(player.equals(player1)) return spriteLabel1;
+    	else return spriteLabel2;
     }
     
     public JPanel getTopPanel() {
