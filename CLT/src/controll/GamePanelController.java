@@ -276,7 +276,7 @@ public class GamePanelController implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_E:
-            	//player1.setState("kick");
+            	player1.setState("kick");
             	gamePanel.getSpriteLabel(player1).setIcon(new ImageIcon(player1.getCurrentGif()));
                 gamePanel.getSpriteLabel(player1).revalidate();
                 gamePanel.getSpriteLabel(player1).repaint();
@@ -420,7 +420,7 @@ public class GamePanelController implements KeyListener {
     }
     
     private void executecombo(Player player, Player opponent) {
-        //if (isInRange(player, opponent)) {
+        if (isInRange(player, opponent)) {
             player.attack(opponent, "combo"); // Dano maior
             player.setState("comboAttack");
             gamePanel.getSpriteLabel(player).setIcon(new ImageIcon(player.getCurrentGif()));
@@ -436,7 +436,7 @@ public class GamePanelController implements KeyListener {
 
             releaseDelayTimer.setRepeats(false); 
             releaseDelayTimer.start();
-        //}
+        }
     }
     @Override
     public void keyReleased(KeyEvent e) {
@@ -487,10 +487,19 @@ public class GamePanelController implements KeyListener {
                 break;
             case KeyEvent.VK_UP:
                 setUpPressed(false);
-                player2.setState("idle");
-                gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
-                gamePanel.getSpriteLabel(player2).revalidate();
-                gamePanel.getSpriteLabel(player2).repaint();
+                if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
+                    releaseDelayTimer.stop();
+                }
+                
+                releaseDelayTimer = new Timer(200, evt -> {
+                	player2.setState("idle");
+                    gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
+                    gamePanel.getSpriteLabel(player2).revalidate();
+                    gamePanel.getSpriteLabel(player2).repaint();
+                });
+
+                releaseDelayTimer.setRepeats(false); 
+                releaseDelayTimer.start();
                 break;
             case KeyEvent.VK_DOWN:
                 setDownPressed(false);

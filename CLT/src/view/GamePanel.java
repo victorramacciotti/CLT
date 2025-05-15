@@ -99,7 +99,7 @@ public class GamePanel extends JPanel {
     }
     
     private JLabel buildBackground() {
-    	ImageIcon backgroundImage = new ImageIcon("resources/backgrounds/provisorio.png");
+    	ImageIcon backgroundImage = new ImageIcon("resources/backgrounds/dia.png");
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setSize(1000, 700);
         add(backgroundLabel);
