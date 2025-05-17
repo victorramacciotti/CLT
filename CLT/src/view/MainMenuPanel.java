@@ -37,6 +37,7 @@ public class MainMenuPanel extends JPanel {
         
         startButton = new JButton(startIcon);
         startButton.setRolloverIcon(startHoverIcon);
+        startButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         configButton(startButton, 380, 340, startIcon);
 
         ImageIcon exitIcon = new ImageIcon("resources/buttons/exitButton.png");
@@ -44,6 +45,7 @@ public class MainMenuPanel extends JPanel {
         
         exitButton = new JButton(exitIcon);
         exitButton.setRolloverIcon(exitHoverIcon);
+        exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         configButton(exitButton, 475, 450, exitIcon);
 
         add(startButton);

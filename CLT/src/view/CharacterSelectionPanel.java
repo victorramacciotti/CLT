@@ -1,13 +1,19 @@
 package view;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
 
 public class CharacterSelectionPanel extends JPanel {
     
@@ -22,10 +28,12 @@ public class CharacterSelectionPanel extends JPanel {
     private JButton buttonPerson4;
     private JButton buttonPerson5;
     private JButton buttonStart;
+    private JButton buttonConfirm;
     
-    private JPanel panelPlayer1;
-    private JPanel panelPlayer2;
-    private String namePanel;
+    private JLabel panelPlayer1;
+    private JLabel panelPlayer2;
+    private JTextArea description;
+    private String profilePath1, profilePath2;
     
     public CharacterSelectionPanel() {
         setSize(1000, 700);
@@ -40,12 +48,15 @@ public class CharacterSelectionPanel extends JPanel {
         add(getButtonPerson1());
         add(getButtonPerson2());
         add(getButtonPerson3());
+        add(getButtonPerson4());
         add(getButtonPerson5());
         add(getButtonStart());
+        add(getButtonConfirm());
         
         add(getPanelPlayer1());
         add(getPanelPlayer2());
-        add(getButtonPerson4());
+        add(getAreaDescription());
+        
     }
     
     @Override
@@ -59,18 +70,20 @@ public class CharacterSelectionPanel extends JPanel {
     
     public JLabel getLabelTitle() {
         if (labelTitle == null) {
-            labelTitle = new JLabel("Selection");
+            labelTitle = new JLabel("Seleção");
             labelTitle.setBounds(395, 60, 210, 62);
-            labelTitle.setFont(new Font("Tahoma", Font.PLAIN, 51));
+            labelTitle.setFont(new Font("Tahoma", Font.BOLD, 51));
+            labelTitle.setForeground(new Color(108, 60, 2));
         }
         return labelTitle;
     }
 
     public JLabel getLabelSubtitle() {
         if (labelSubtitle == null) {
-            labelSubtitle = new JLabel("Choose the character for Player 1");
-            labelSubtitle.setBounds(315, 130, 370, 29);
-            labelSubtitle.setFont(new Font("Tahoma", Font.PLAIN, 24));
+            labelSubtitle = new JLabel("Jogador 1, escolha seu personagem.");
+            labelSubtitle.setBounds(80, 130, 826, 29);
+            labelSubtitle.setFont(new Font("Tahoma", Font.BOLD, 24));
+            labelSubtitle.setForeground(new Color(108, 60, 2));
         }
         return labelSubtitle;
     }
@@ -80,7 +93,7 @@ public class CharacterSelectionPanel extends JPanel {
         	ImageIcon nita = new ImageIcon("resources/buttons/nita.png");
             buttonPerson1 = new JButton(nita);
             buttonPerson1.setBounds(253, 171, 140, 140);
-            namePanel = "Nita";
+            buttonPerson1.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         return buttonPerson1;
     }
@@ -91,6 +104,7 @@ public class CharacterSelectionPanel extends JPanel {
         	ImageIcon isagram = new ImageIcon("resources/buttons/isagram.png");
             buttonPerson2 = new JButton(isagram);
             buttonPerson2.setBounds(425, 171, 140, 140);
+            buttonPerson2.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         return buttonPerson2;
     }
@@ -100,6 +114,7 @@ public class CharacterSelectionPanel extends JPanel {
         	ImageIcon murissoca = new ImageIcon("resources/buttons/murissoca.png");
             buttonPerson3 = new JButton(murissoca);
             buttonPerson3.setBounds(80, 171, 140, 140);
+            buttonPerson3.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         return buttonPerson3;
     }
@@ -109,6 +124,7 @@ public class CharacterSelectionPanel extends JPanel {
         	ImageIcon teletony = new ImageIcon("resources/buttons/teletony.png");
             buttonPerson4 = new JButton(teletony);
             buttonPerson4.setBounds(595, 171, 140, 140);
+            buttonPerson4.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         return buttonPerson4;
     }
@@ -118,50 +134,115 @@ public class CharacterSelectionPanel extends JPanel {
         	ImageIcon lule = new ImageIcon("resources/buttons/lule.png");
         	buttonPerson5 = new JButton(lule);
         	buttonPerson5.setBounds(766, 171, 140, 140);
+        	buttonPerson5.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         return buttonPerson5;
     }
 
     public JButton getButtonStart() {
         if (buttonStart == null) {
-            buttonStart = new JButton("Select");
-            buttonStart.setBounds(434, 526, 150, 50);
+            buttonStart = new JButton("Começar");
+            buttonStart.setBounds(425, 500, 150, 50);
             buttonStart.setEnabled(false);
+            buttonStart.setFont(new Font("Tahoma", Font.BOLD, 18));
+            buttonStart.setForeground(new Color(238, 238, 238));
+            buttonStart.setBackground(new Color(108, 60, 2));
+            buttonStart.setBorderPainted(false);
+            buttonStart.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            
+            buttonStart.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                	buttonStart.setBackground(new Color(80, 0, 0)); // hover
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                	buttonStart.setBackground(new Color(108, 60, 2)); // original
+                }
+            });
         }
         return buttonStart;
+    }
+    
+    public JButton getButtonConfirm() {
+        if (buttonConfirm == null) {
+        	buttonConfirm = new JButton("Selecionar");
+        	buttonConfirm.setBounds(425, 440, 150, 50);
+        	buttonConfirm.setEnabled(false);
+        	buttonConfirm.setFont(new Font("Tahoma", Font.BOLD, 18));
+        	buttonConfirm.setForeground(new Color(238, 238, 238));
+        	buttonConfirm.setBackground(new Color(108, 60, 2));
+        	buttonConfirm.setBorderPainted(false);
+        	buttonConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            
+        	buttonConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                	buttonConfirm.setBackground(new Color(80, 0, 0)); // hover
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                	buttonConfirm.setBackground(new Color(108, 60, 2)); // original
+                }
+            });
+        }
+        return buttonConfirm;
     }
 
     public JLabel getLabelVersus() {
         if (labelVersus == null) {
-            labelVersus = new JLabel("Vs");
-            labelVersus.setFont(new Font("Tahoma", Font.PLAIN, 41));
-            labelVersus.setBounds(479, 394, 42, 50);
+            labelVersus = new JLabel("vs");
+            labelVersus.setFont(new Font("Tahoma", Font.BOLD, 41));
+            labelVersus.setBounds(471, 370, 58, 50);
+            labelVersus.setForeground(new Color(108, 60, 2));
+            labelVersus.setHorizontalAlignment(SwingConstants.CENTER);
         }
         return labelVersus;
     }
 
-    public JPanel getPanelPlayer1() {
+    public JLabel getPanelPlayer1() {
         if (panelPlayer1 == null) {
-            panelPlayer1 = new JPanel();
+            panelPlayer1 = new JLabel();
             panelPlayer1.setBackground(new Color(192, 192, 192));
-            panelPlayer1.setBounds(130, 356, 219, 175);
-        }
-        
-        else {
-        	ImageIcon bgIcon1 = new ImageIcon("resources/buttons/.png");
-            Image profileImage1 = bgIcon1.getImage();
-            //panelPlayer1 = new imagepa(profileImage1);
-            panelPlayer1.setBounds(130, 356, 219, 175);
+            panelPlayer1.setBounds(130, 330, 220, 220);
         }
         return panelPlayer1;
     }
 
-    public JPanel getPanelPlayer2() {
+    public JLabel getPanelPlayer2() {
         if (panelPlayer2 == null) {
-            panelPlayer2 = new JPanel();
+            panelPlayer2 = new JLabel();
             panelPlayer2.setBackground(new Color(192, 192, 192));
-            panelPlayer2.setBounds(651, 356, 219, 175);
+            panelPlayer2.setBounds(651, 330, 220, 220);
         }
         return panelPlayer2;
+    }
+    
+    public void setProfilePathP1(String path) {
+        this.profilePath1 = path;
+        // Atualiza o ícone do JLabel do Player 1
+        ImageIcon icon = new ImageIcon(path);
+        panelPlayer1.setIcon(icon);
+        panelPlayer1.revalidate(); // Revalida o painel
+        panelPlayer1.repaint(); // Repaint para garantir que a nova imagem apareça
+    }
+    
+    public void setProfilePathP2(String path) {
+        this.profilePath2 = path;
+        // Atualiza o ícone do JLabel do Player 2
+        ImageIcon icon = new ImageIcon(path);
+        panelPlayer2.setIcon(icon);
+        panelPlayer2.revalidate(); // Revalida o painel
+        panelPlayer2.repaint(); // Repaint para garantir que a nova imagem apareça
+    }
+    
+    public JTextArea getAreaDescription() {
+    	if (description == null) {
+    		description = new JTextArea();
+    		description.setBackground(new Color(238, 238, 238));
+    		description.setBounds(50, 560, 900, 100);
+    		description.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+    		description.setFont(new Font("Tahoma", Font.PLAIN, 20));
+    		description.setLineWrap(true);     
+    		description.setWrapStyleWord(true);
+    		description.setMargin(new Insets(10, 10, 10, 10));
+        }
+        return description;
     }
 }
