@@ -1,10 +1,13 @@
 package view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
 public class CharacterSelectionPanel extends JPanel {
     
@@ -12,6 +15,7 @@ public class CharacterSelectionPanel extends JPanel {
     private JLabel labelSubtitle;
     private JLabel labelVersus;    
     
+    private Image backgroundImage;
     private JButton buttonPerson1;
     private JButton buttonPerson2;
     private JButton buttonPerson3;
@@ -21,10 +25,13 @@ public class CharacterSelectionPanel extends JPanel {
     
     private JPanel panelPlayer1;
     private JPanel panelPlayer2;
+    private String namePanel;
     
     public CharacterSelectionPanel() {
         setSize(1000, 700);
         setLayout(null);
+        ImageIcon bgIcon = new ImageIcon("resources/backgrounds/backgroundSelection.png"); 
+        backgroundImage = bgIcon.getImage();
         
         add(getLabelTitle());
         add(getLabelSubtitle());
@@ -41,10 +48,19 @@ public class CharacterSelectionPanel extends JPanel {
         add(getButtonPerson4());
     }
     
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // Desenha a imagem de fundo esticada para ocupar todo o painel
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+    
     public JLabel getLabelTitle() {
         if (labelTitle == null) {
             labelTitle = new JLabel("Selection");
-            labelTitle.setBounds(395, 40, 210, 62);
+            labelTitle.setBounds(395, 60, 210, 62);
             labelTitle.setFont(new Font("Tahoma", Font.PLAIN, 51));
         }
         return labelTitle;
@@ -53,7 +69,7 @@ public class CharacterSelectionPanel extends JPanel {
     public JLabel getLabelSubtitle() {
         if (labelSubtitle == null) {
             labelSubtitle = new JLabel("Choose the character for Player 1");
-            labelSubtitle.setBounds(315, 113, 370, 29);
+            labelSubtitle.setBounds(315, 130, 370, 29);
             labelSubtitle.setFont(new Font("Tahoma", Font.PLAIN, 24));
         }
         return labelSubtitle;
@@ -61,40 +77,47 @@ public class CharacterSelectionPanel extends JPanel {
 
     public JButton getButtonPerson1() {
         if (buttonPerson1 == null) {
-            buttonPerson1 = new JButton("Nita");
-            buttonPerson1.setBounds(41, 171, 150, 150);
+        	ImageIcon nita = new ImageIcon("resources/buttons/nita.png");
+            buttonPerson1 = new JButton(nita);
+            buttonPerson1.setBounds(253, 171, 140, 140);
+            namePanel = "Nita";
         }
         return buttonPerson1;
     }
+    
 
     public JButton getButtonPerson2() {
         if (buttonPerson2 == null) {
-            buttonPerson2 = new JButton("IsaGram");
-            buttonPerson2.setBounds(232, 171, 150, 150);
+        	ImageIcon isagram = new ImageIcon("resources/buttons/isagram.png");
+            buttonPerson2 = new JButton(isagram);
+            buttonPerson2.setBounds(425, 171, 140, 140);
         }
         return buttonPerson2;
     }
 
     public JButton getButtonPerson3() {
         if (buttonPerson3 == null) {
-            buttonPerson3 = new JButton("Murissoca");
-            buttonPerson3.setBounds(423, 171, 150, 150);
+        	ImageIcon murissoca = new ImageIcon("resources/buttons/murissoca.png");
+            buttonPerson3 = new JButton(murissoca);
+            buttonPerson3.setBounds(80, 171, 140, 140);
         }
         return buttonPerson3;
     }
 
     public JButton getButtonPerson4() {
         if (buttonPerson4 == null) {
-            buttonPerson4 = new JButton("TeleTony");
-            buttonPerson4.setBounds(614, 171, 150, 150);
+        	ImageIcon teletony = new ImageIcon("resources/buttons/teletony.png");
+            buttonPerson4 = new JButton(teletony);
+            buttonPerson4.setBounds(595, 171, 140, 140);
         }
         return buttonPerson4;
     }
     
     public JButton getButtonPerson5() {
         if (buttonPerson5 == null) {
-        	buttonPerson5 = new JButton("Lule");
-        	buttonPerson5.setBounds(805, 171, 150, 150);
+        	ImageIcon lule = new ImageIcon("resources/buttons/lule.png");
+        	buttonPerson5 = new JButton(lule);
+        	buttonPerson5.setBounds(766, 171, 140, 140);
         }
         return buttonPerson5;
     }
@@ -102,7 +125,7 @@ public class CharacterSelectionPanel extends JPanel {
     public JButton getButtonStart() {
         if (buttonStart == null) {
             buttonStart = new JButton("Select");
-            buttonStart.setBounds(434, 566, 150, 50);
+            buttonStart.setBounds(434, 526, 150, 50);
             buttonStart.setEnabled(false);
         }
         return buttonStart;
@@ -121,6 +144,13 @@ public class CharacterSelectionPanel extends JPanel {
         if (panelPlayer1 == null) {
             panelPlayer1 = new JPanel();
             panelPlayer1.setBackground(new Color(192, 192, 192));
+            panelPlayer1.setBounds(130, 356, 219, 175);
+        }
+        
+        else {
+        	ImageIcon bgIcon1 = new ImageIcon("resources/buttons/.png");
+            Image profileImage1 = bgIcon1.getImage();
+            //panelPlayer1 = new imagepa(profileImage1);
             panelPlayer1.setBounds(130, 356, 219, 175);
         }
         return panelPlayer1;
