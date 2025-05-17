@@ -21,7 +21,7 @@
 
 -   **Interface simples e intuitiva:** Visual limpo e fácil de usar.
 -   **Tratamento de erros:** Garantia de uma experiência sem falhas.
--   **Quatro personagens jogáveis:** Cada um com habilidades únicas.
+-   **Cinco personagens jogáveis:** Cada um com habilidades únicas.
 -   **Sistema de combate:** Ataque fraco, forte e dois ataques compostos.
 -   **Gráficos 2D:** Animações baseadas em sprites.
 -   **Gerenciamento de eventos:** Captura de ações do jogador.
