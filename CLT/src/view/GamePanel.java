@@ -35,6 +35,7 @@ public class GamePanel extends JPanel {
     private JLabel gameOverLabel;
     private JLabel timerLabel;
     private JLabel roundLabel;
+    private JLabel backgroundLabel;
     public JLabel roundMessage = new JLabel();
 
     public GamePanel(Player player1, Player player2) {
@@ -114,12 +115,28 @@ public class GamePanel extends JPanel {
         repaint();
     }
     
-    private JLabel buildBackground() {
-    	ImageIcon backgroundImage = new ImageIcon("resources/backgrounds/dia.png");
-        JLabel backgroundLabel = new JLabel(backgroundImage);
+    public JLabel buildBackground() {
+		ImageIcon backgroundImage = new ImageIcon("resources/backgrounds/dia.png");
+		backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setSize(1000, 700);
         add(backgroundLabel);
+        backgroundLabel.revalidate();
+        backgroundLabel.repaint();
         return backgroundLabel;
+        
+    }
+    
+    public void updateBackground(String round) {
+        ImageIcon backgroundImage;
+
+        if (round.equals("Round 1")) {
+            backgroundImage = new ImageIcon("resources/backgrounds/dia.png");
+        } else {
+            backgroundImage = new ImageIcon("resources/backgrounds/noite.png");
+        }
+
+        backgroundLabel.setIcon(backgroundImage);
+        backgroundLabel.repaint();
     }
 
     private JLabel createCharacterLabel(Player player, int x, int y, int alignment) {

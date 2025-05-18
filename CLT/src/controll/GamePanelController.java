@@ -28,7 +28,7 @@ public class GamePanelController implements KeyListener {
     private final Player player1;
     private final Player player2;
     private Set<Integer> pressedKeys = new HashSet<Integer>();
-    
+    private Sound fx = new Sound();
     
     // Game state
     private final PlayerThread player1Thread;
@@ -219,6 +219,7 @@ public class GamePanelController implements KeyListener {
         
         // Atualiza label de round na interface
         gamePanel.getRoundLabel().setText("Round " + currentRound);
+        gamePanel.updateBackground("Round " + currentRound);
     }
 
     public void showGameOver(String winner) {
@@ -290,6 +291,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player1).setIcon(new ImageIcon(player1.getCurrentGif()));
                 gamePanel.getSpriteLabel(player1).revalidate();
                 gamePanel.getSpriteLabel(player1).repaint();
+                fx.playSoundFX(10);
                 
                 break;
             case KeyEvent.VK_A:
@@ -320,6 +322,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player1).repaint();
                 if (isInRange(player1, player2)) {
                     player1.attack(player2, "punch");
+                    fx.playSoundFX(9);
                 }
                 break;
             case KeyEvent.VK_E:
@@ -331,6 +334,7 @@ public class GamePanelController implements KeyListener {
                 checkCombo(player1, player2); // Verifica o combo
                 if (isInRange(player1, player2)) {
                     player1.attack(player2, "kick");
+                    fx.playSoundFX(12);
                 }
                 break;
             case KeyEvent.VK_R:
@@ -364,6 +368,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
                 gamePanel.getSpriteLabel(player2).revalidate();
                 gamePanel.getSpriteLabel(player2).repaint();
+                fx.playSoundFX(10);
                 break;
             case KeyEvent.VK_DOWN:
                 setDownPressed(true);
@@ -393,6 +398,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player2).repaint();
                 if (isInRange(player2, player1)) {
                     player2.attack(player1, "punch");
+                    fx.playSoundFX(9);
                 }
                 break;
             case KeyEvent.VK_O:
@@ -404,6 +410,7 @@ public class GamePanelController implements KeyListener {
                 checkCombo(player2, player1);
                 if (isInRange(player2, player1)) {
                     player2.attack(player1, "kick");
+                    fx.playSoundFX(12);
                 }
                 break;
             case KeyEvent.VK_K:

@@ -104,13 +104,14 @@ public class CharacterSelectionController {
             
             sound.stopMusic();
             int numero = (int)(Math.random() * 3) + 1;
+            fx.playSoundFX(11);
             sound.playMusic(numero);
         }
     }
     
     private String getCharacterDescription(String characterName) {
         switch(characterName) {
-            case "Nita": return "A NITA, Nova Influência do Tesão e da Audácia, chegou pra mudar o jogo. No ringue ou no palco, ela domina com ritmo, charme e poder de nocaute.\r\n"
+            case "Nita": return "A N.I.T.A., Nova Influência do Tesão e da Audácia, chegou pra mudar o jogo. No ringue ou no palco, ela domina com ritmo, charme e poder de nocaute.\r\n"
             		+ "";
             case "Isagram": return "Isa Gram, a Diva Digital do Instagram.\r\n"
             		+ "Rainha dos filtros e dos flertes forçados, ela luta com egocentrismo, spray de cabelo e hashtags letais. Ignora o conflito ao redor — a não ser que tenha câmera e boa luz. Toda pose é golpe.\r\n"

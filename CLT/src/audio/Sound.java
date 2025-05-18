@@ -10,7 +10,7 @@ import javax.sound.sampled.FloatControl;
 public class Sound {
 	
 	Clip clip;
-	URL soundURL[] = new URL[10];
+	URL soundURL[] = new URL[15];
 	
 	public Sound() {
 		
@@ -23,6 +23,10 @@ public class Sound {
 		soundURL[6] = getClass().getResource("/sounds/soundTeletony.wav");
 		soundURL[7] = getClass().getResource("/sounds/soundNita.wav");
 		soundURL[8] = getClass().getResource("/sounds/soundMurissoca.wav");
+		soundURL[9] = getClass().getResource("/sounds/punch.wav");
+		soundURL[10] = getClass().getResource("/sounds/jump.wav");
+		soundURL[11] = getClass().getResource("/sounds/fight.wav");
+		soundURL[12] = getClass().getResource("/sounds/punch2.wav");
 	}
 	
 	public void setFile(int i) {
