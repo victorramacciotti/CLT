@@ -30,7 +30,7 @@ public class CharacterSelectionController {
 
     private void addEvents() {
         characterSelectionPanel.getButtonPerson1().addActionListener(e -> selectTemporaryCharacter(new Character("Nita", 120, 20, 5, 204, 239)));
-        characterSelectionPanel.getButtonPerson2().addActionListener(e -> selectTemporaryCharacter(new Character("Isagram", 100, 18, 6, 239, 239)));
+        characterSelectionPanel.getButtonPerson2().addActionListener(e -> selectTemporaryCharacter(new Character("Isagram", 1000, 18, 6, 239, 239)));
         characterSelectionPanel.getButtonPerson3().addActionListener(e -> selectTemporaryCharacter(new Character("Murissoca", 80, 18, 7, 270, 239)));
         characterSelectionPanel.getButtonPerson4().addActionListener(e -> selectTemporaryCharacter(new Character("Teletony", 110, 22, 4, 239, 239)));
         characterSelectionPanel.getButtonPerson5().addActionListener(e -> selectTemporaryCharacter(new Character("Lule", 90, 22, 4, 239, 239)));
@@ -103,7 +103,7 @@ public class CharacterSelectionController {
             		+ "Rainha dos filtros e dos flertes forçados, ela luta com egocentrismo, spray de cabelo e hashtags letais. Ignora o conflito ao redor — a não ser que tenha câmera e boa luz. Toda pose é golpe.\r\n"
             		+ "\r\n";
             case "Murissoca": return "Murissoca, o  Prof. P*tasso."
-            		+ "Armado de giz, memes, polêmicas e revolta, ele leciona soco com viés de direita. com QI acima do brasileiro médio — que, segundo ele, é menor que de um chimpanzé. \r\nSua didática? Uma voadora pedagógica!";
+            		+ " Armado de giz, memes, polêmicas e revolta, ele leciona soco com viés de direita. com QI acima do brasileiro médio — que, segundo ele, é menor que de um chimpanzé. \r\nSua didática? Uma voadora pedagógica!";
             case "Teletony": return "TeleTony, o Guerreiro do SAC e do Sofrimento.\r\n"
             		+ "Última linha de defesa entre o cliente e o colapso. Cansado da vida, do script e da musiquinha de espera, ele luta sem vontade, mas com profundo rancor. Cada golpe é um ticket encerrado.";
             case "Lule": return "Metade carisma, metade caos, Lule Moronaro é 100% polarização. Ele distribui promessas, tapa na mesa e golpes de oportunismo com a mesma fluidez. Seu lema?"

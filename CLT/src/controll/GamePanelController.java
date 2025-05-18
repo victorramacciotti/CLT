@@ -39,9 +39,14 @@ public class GamePanelController implements KeyListener {
     // Constants
     private static final int MAX_GAME_TIME_SECONDS = 120; // 2 minutes
     
- // Rastrear sequência de inputs do Player 1
+    // Rastrear sequência de inputs do Player 1
     private List<Integer> player1InputSequence = new ArrayList<>();
     private long lastPlayer1InputTime = 0;
+    
+    // Rastrear sequência de inputs do Player 1
+    private List<Integer> player2InputSequence = new ArrayList<>();
+    private long lastPlayer2InputTime = 0;
+    
     private static final int COMBO_TIMEOUT = 1000; // 1 segundo para completar o combo
     private static final int[] BACK_FORWARD_KICK_COMBO_P1 = { 
         KeyEvent.VK_A, // Trás (A)
@@ -198,7 +203,7 @@ public class GamePanelController implements KeyListener {
         String labelText = winner.equals("Draw") ? "Game Over! It's a Draw!" : "Fim do Round " + currentRound + "! Vencedor: " + winner;
         gamePanel.setNextRoundLabel(labelText);
         
-        // Resetar vidas dos personagens
+        // Resetar vidas e posições dos personagens
         player1.getCharacter().resetLife();
         player2.getCharacter().resetLife();
         player1.setPositionX(10);
@@ -290,7 +295,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player1).setIcon(new ImageIcon(player1.getCurrentGif()));
                 gamePanel.getSpriteLabel(player1).revalidate();
                 gamePanel.getSpriteLabel(player1).repaint();
-                addToComboSequence(keyCode);// Adiciona tecla à sequência
+                addToP1ComboSequence(keyCode);// Adiciona tecla à sequência
                 break;
             case KeyEvent.VK_S:
                 setSPressed(true);
@@ -301,7 +306,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player1).setIcon(new ImageIcon(player1.getCurrentGif()));
                 gamePanel.getSpriteLabel(player1).revalidate();
                 gamePanel.getSpriteLabel(player1).repaint();
-                addToComboSequence(keyCode);// Adiciona tecla à sequência
+                addToP1ComboSequence(keyCode);// Adiciona tecla à sequência
                 break;
                 
             // Player 1 attacks
@@ -319,7 +324,7 @@ public class GamePanelController implements KeyListener {
             	gamePanel.getSpriteLabel(player1).setIcon(new ImageIcon(player1.getCurrentGif()));
                 gamePanel.getSpriteLabel(player1).revalidate();
                 gamePanel.getSpriteLabel(player1).repaint();
-                addToComboSequence(keyCode); // Adiciona tecla à sequência
+                addToP1ComboSequence(keyCode); // Adiciona tecla à sequência
                 checkCombo(player1, player2); // Verifica o combo
                 if (isInRange(player1, player2)) {
                     player1.attack(player2, "kick");
@@ -366,6 +371,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
                 gamePanel.getSpriteLabel(player2).revalidate();
                 gamePanel.getSpriteLabel(player2).repaint();
+                addToP2ComboSequence(keyCode);
                 break;
             case KeyEvent.VK_RIGHT:
                 setRightPressed(true);
@@ -373,6 +379,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
                 gamePanel.getSpriteLabel(player2).revalidate();
                 gamePanel.getSpriteLabel(player2).repaint();
+                addToP2ComboSequence(keyCode);
                 break;
                 
             // Player 2 attacks
@@ -390,6 +397,8 @@ public class GamePanelController implements KeyListener {
             	gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
                 gamePanel.getSpriteLabel(player2).revalidate();
                 gamePanel.getSpriteLabel(player2).repaint();
+                addToP2ComboSequence(keyCode);
+                checkCombo(player2, player1);
                 if (isInRange(player2, player1)) {
                     player2.attack(player1, "kick");
                 }
@@ -423,25 +432,34 @@ public class GamePanelController implements KeyListener {
     
     
     // Adiciona a tecla pressionada à sequência e atualiza o tempo
-    private void addToComboSequence(int keyCode) {
+    private void addToP1ComboSequence(int keyCode) {
         player1InputSequence.add(keyCode);
         lastPlayer1InputTime = System.currentTimeMillis();
+    }
+    
+    private void addToP2ComboSequence(int keyCode) {
+        player2InputSequence.add(keyCode);
+        lastPlayer2InputTime = System.currentTimeMillis();
     }
 
     // Verifica se a sequência atual corresponde ao combo desejado
     private void checkCombo(Player player, Player opponent) {
-        if (isComboValid(BACK_FORWARD_KICK_COMBO_P1)) {
-            executecombo(player, opponent);
-            player1InputSequence.clear(); // Reseta após executar
-        }
-        else if (isComboValid(BACK_FORWARD_KICK_COMBO_P2)) {
-            executecombo(player, opponent);
-            player1InputSequence.clear(); // Reseta após executar
+    	if (player.equals(player1)) {
+            if (isComboValid1(BACK_FORWARD_KICK_COMBO_P1)) {
+                executeCombo(player, opponent);
+                player1InputSequence.clear(); // Reseta após executar
+            }
+        } else if (player.equals(player2)) {
+        	System.out.println(player);
+            if (isComboValid2(BACK_FORWARD_KICK_COMBO_P2)) {
+                executeCombo(player, opponent);
+                player2InputSequence.clear(); // Reseta após executar
+            } 
         }
     }
 
     // Valida se a sequência e o tempo estão corretos
-    private boolean isComboValid(int[] combo) {
+    private boolean isComboValid1(int[] combo) {
         if (player1InputSequence.size() < combo.length) return false;
 
         // Pega os últimos inputs do tamanho do combo
@@ -459,14 +477,32 @@ public class GamePanelController implements KeyListener {
         return (System.currentTimeMillis() - lastPlayer1InputTime) <= COMBO_TIMEOUT;
     }
     
-    private void executecombo(Player player, Player opponent) {
+    private boolean isComboValid2(int[] combo) {
+        if (player2InputSequence.size() < combo.length) return false;
+
+        // Pega os últimos inputs do tamanho do combo
+        List<Integer> recentInputs = player2InputSequence.subList(
+            player2InputSequence.size() - combo.length, 
+            player2InputSequence.size()
+        );
+
+        // Verifica sequência e tempo
+        for (int i = 0; i < combo.length; i++) {
+            if (recentInputs.get(i) != combo[i]) return false;
+        }
+
+        // Verifica se o combo foi feito dentro do tempo limite
+        return (System.currentTimeMillis() - lastPlayer2InputTime) <= COMBO_TIMEOUT;
+    }
+    
+    private void executeCombo(Player player, Player opponent) {
         if (isInRange(player, opponent)) {
             player.attack(opponent, "combo"); // Dano maior
             player.setState("comboAttack");
             gamePanel.getSpriteLabel(player).setIcon(new ImageIcon(player.getCurrentGif()));
             gamePanel.getSpriteLabel(player).revalidate();
             gamePanel.getSpriteLabel(player).repaint();
-            System.out.println(player.getCurrentGif());
+            
             releaseDelayTimer = new Timer(1000, evt -> {
             	player.setState("idle");
                 gamePanel.getSpriteLabel(player).setIcon(new ImageIcon(player.getCurrentGif()));
