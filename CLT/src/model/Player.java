@@ -9,7 +9,7 @@ public class Player {
     // Player identification and appearance
     private Character character;
     private String spritePath;
-    private String idleGif, kickGif, punchGif, walkGif, backwardsGif, jumpGif,  currentGif, comboGif, state;
+    private String idleGif, kickGif, punchGif, walkGif, backwardsGif, jumpGif,  currentGif, comboGif, combo2Gif, state;
     
     public Player(int positionX, int positionY, Character character, String spritePath) {
         this.positionX = positionX;
@@ -29,6 +29,7 @@ public class Player {
         backwardsGif = spritePath.replace("idle", "backwards");
         jumpGif = spritePath.replace("idle", "jump");
         comboGif = spritePath.replace("idle", "combo");
+        combo2Gif = spritePath.replace("idle", "combo2");
     }
     
     public void setState(String state) {
@@ -56,8 +57,11 @@ public class Player {
                 break;
             case "comboAttack":
                 currentGif = comboGif;
+                break;
             case "comboAttack2":
-                currentGif = comboGif;
+                currentGif = combo2Gif;
+                System.out.println("combo2Gif path: " + combo2Gif);
+
                 break;
         }
     }
@@ -74,6 +78,7 @@ public class Player {
                 break;
             case "combo":
                 damage = character.comboAttack();
+                break;
             case "combo2":
                 damage = character.comboAttack();
                 break;

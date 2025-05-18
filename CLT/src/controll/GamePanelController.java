@@ -331,8 +331,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player1).revalidate();
                 gamePanel.getSpriteLabel(player1).repaint();
                 addToP1ComboSequence(keyCode); // Adiciona tecla à sequência
-                checkCombo(player1, player2); // Verifica o combo
-                if (isInRange(player1, player2)) {
+                if (isInRange(player1, player2) && checkCombo(player1, player2)==1) {
                     player1.attack(player2, "punch");
                     fx.playSoundFX(9);
                 }
@@ -343,8 +342,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player1).revalidate();
                 gamePanel.getSpriteLabel(player1).repaint();
                 addToP1ComboSequence(keyCode); // Adiciona tecla à sequência
-                checkCombo(player1, player2); // Verifica o combo
-                if (isInRange(player1, player2)) {
+                if (isInRange(player1, player2) && checkCombo(player1, player2)==1) {
                     player1.attack(player2, "kick");
                     fx.playSoundFX(12);
                 }
@@ -387,8 +385,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player2).revalidate();
                 gamePanel.getSpriteLabel(player2).repaint();
                 addToP2ComboSequence(keyCode);
-                checkCombo(player2, player1);
-                if (isInRange(player2, player1)) {
+                if (isInRange(player2, player1) && checkCombo(player2, player1)==1) {
                     player2.attack(player1, "punch");
                     fx.playSoundFX(9);
                 }
@@ -399,8 +396,7 @@ public class GamePanelController implements KeyListener {
                 gamePanel.getSpriteLabel(player2).revalidate();
                 gamePanel.getSpriteLabel(player2).repaint();
                 addToP2ComboSequence(keyCode);
-                checkCombo(player2, player1);
-                if (isInRange(player2, player1)) {
+                if (isInRange(player2, player1) && checkCombo(player2, player1)==1) {
                     player2.attack(player1, "kick");
                     fx.playSoundFX(12);
                 }
@@ -422,27 +418,32 @@ public class GamePanelController implements KeyListener {
     }
 
     // Verifica se a sequência atual corresponde ao combo desejado
-    private void checkCombo(Player player, Player opponent) {
+    private int checkCombo(Player player, Player opponent) {
     	if (player.equals(player1)) {
             if (isComboValid1(BACK_FORWARD_KICK_COMBO_P1)) {
                 executeCombo(player, opponent);
                 player1InputSequence.clear(); // Reseta após executar
+                return 0;
             }
             else if (isComboValid1(BACK_FORWARD_PUNCH_COMBO_P1)) {
                 executeCombo2(player, opponent);
                 player1InputSequence.clear(); // Reseta após executar
+                return 0;
             }
         } else if (player.equals(player2)) {
         	System.out.println(player);
             if (isComboValid2(BACK_FORWARD_KICK_COMBO_P2)) {
                 executeCombo(player, opponent);
                 player2InputSequence.clear(); // Reseta após executar
+                return 0;
             } 
             else if (isComboValid2(BACK_FORWARD_PUNCH_COMBO_P2)) {
                 executeCombo2(player, opponent);
                 player2InputSequence.clear(); // Reseta após executar
+                return 0;
             }
         }
+		return 1;
     }
 
     // Valida se a sequência e o tempo estão corretos
@@ -490,7 +491,7 @@ public class GamePanelController implements KeyListener {
             gamePanel.getSpriteLabel(player).revalidate();
             gamePanel.getSpriteLabel(player).repaint();
             
-            releaseDelayTimer = new Timer(1000, evt -> {
+            releaseDelayTimer = new Timer(1500, evt -> {
             	player.setState("idle");
                 gamePanel.getSpriteLabel(player).setIcon(new ImageIcon(player.getCurrentGif()));
                 gamePanel.getSpriteLabel(player).revalidate();
@@ -510,7 +511,7 @@ public class GamePanelController implements KeyListener {
             gamePanel.getSpriteLabel(player).revalidate();
             gamePanel.getSpriteLabel(player).repaint();
             
-            releaseDelayTimer = new Timer(1000, evt -> {
+            releaseDelayTimer = new Timer(2000, evt -> {
             	player.setState("idle");
                 gamePanel.getSpriteLabel(player).setIcon(new ImageIcon(player.getCurrentGif()));
                 gamePanel.getSpriteLabel(player).revalidate();
@@ -527,7 +528,7 @@ public class GamePanelController implements KeyListener {
             return;
         }
         
-     // Reseta a sequência se o tempo exceder
+        // Reseta a sequência se o tempo exceder
         if (System.currentTimeMillis() - lastPlayer1InputTime > COMBO_TIMEOUT) {
             player1InputSequence.clear();
         }
@@ -637,21 +638,7 @@ public class GamePanelController implements KeyListener {
                 releaseDelayTimer.setRepeats(false); 
                 releaseDelayTimer.start();
                 break;
-            case KeyEvent.VK_R:
-            	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
-                    releaseDelayTimer.stop();
-                }
-                
-                releaseDelayTimer = new Timer(200, evt -> {
-                	player1.setState("idle");
-                	gamePanel.getSpriteLabel(player1).setIcon(new ImageIcon(player1.getCurrentGif()));
-                    gamePanel.getSpriteLabel(player1).revalidate();
-                    gamePanel.getSpriteLabel(player1).repaint();
-                });
-
-                releaseDelayTimer.setRepeats(false); 
-                releaseDelayTimer.start();
-                break;
+            
             case KeyEvent.VK_I:
             	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
                     releaseDelayTimer.stop();
@@ -677,21 +664,6 @@ public class GamePanelController implements KeyListener {
                 	gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
                     gamePanel.getSpriteLabel(player2).revalidate();
                     gamePanel.getSpriteLabel(player2).repaint();
-                });
-
-                releaseDelayTimer.setRepeats(false); 
-                releaseDelayTimer.start();
-                break;
-            case KeyEvent.VK_K:
-            	if (releaseDelayTimer != null && releaseDelayTimer.isRunning()) {
-                    releaseDelayTimer.stop();
-                }
-                
-                releaseDelayTimer = new Timer(500, evt -> {
-                	player2.setState("idle");
-                	gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
-                    gamePanel.getSpriteLabel(player2).revalidate();
-                    gamePanel.getSpriteLabel(player2).repaint();;
                 });
 
                 releaseDelayTimer.setRepeats(false); 

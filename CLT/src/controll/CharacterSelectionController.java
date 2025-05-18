@@ -33,11 +33,11 @@ public class CharacterSelectionController {
     }
 
     private void addEvents() {
-        characterSelectionPanel.getButtonPerson1().addActionListener(e -> selectTemporaryCharacter(new Character("Nita", 120, 20, 5, 204, 239)));
-        characterSelectionPanel.getButtonPerson2().addActionListener(e -> selectTemporaryCharacter(new Character("Isagram", 100, 18, 6, 239, 239)));
-        characterSelectionPanel.getButtonPerson3().addActionListener(e -> selectTemporaryCharacter(new Character("Murissoca", 80, 18, 7, 270, 239)));
-        characterSelectionPanel.getButtonPerson4().addActionListener(e -> selectTemporaryCharacter(new Character("Teletony", 110, 22, 4, 239, 239)));
-        characterSelectionPanel.getButtonPerson5().addActionListener(e -> selectTemporaryCharacter(new Character("Lule", 90, 22, 4, 239, 239)));
+        characterSelectionPanel.getButtonPerson1().addActionListener(e -> selectTemporaryCharacter(new Character("Nita", 170, 20, 5, 204, 239)));
+        characterSelectionPanel.getButtonPerson2().addActionListener(e -> selectTemporaryCharacter(new Character("Isagram", 150, 18, 6, 239, 239)));
+        characterSelectionPanel.getButtonPerson3().addActionListener(e -> selectTemporaryCharacter(new Character("Murissoca", 130, 18, 7, 270, 239)));
+        characterSelectionPanel.getButtonPerson4().addActionListener(e -> selectTemporaryCharacter(new Character("Teletony", 160, 22, 4, 239, 239)));
+        characterSelectionPanel.getButtonPerson5().addActionListener(e -> selectTemporaryCharacter(new Character("Lule", 140, 22, 4, 239, 239)));
         
         // Botão confirmar seleção do personagem atual
         characterSelectionPanel.getButtonConfirm().addActionListener(e -> confirmSelection());
