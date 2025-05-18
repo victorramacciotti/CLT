@@ -1,22 +1,23 @@
 package controll;
 
-import view.GamePanel;
 import view.GameWindow;
 import view.MainMenuPanel;
+import audio.Sound;
 import view.CharacterSelectionPanel;
-import model.Character;
-import model.Player;
+
 
 public class MainMenuController {
     
     private GameWindow gameWindow;
     private MainMenuPanel mainMenuPanel;
+    private Sound sound = new Sound();
     
     public MainMenuController(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         this.mainMenuPanel = new MainMenuPanel();
         addEvents();
         showMainMenu();
+        sound.playMusic(0);
     }
 
     private void addEvents() {
@@ -32,10 +33,12 @@ public class MainMenuController {
 
     private void showCharacterSelection() {
         CharacterSelectionPanel characterSelectionPanel = new CharacterSelectionPanel();
-        CharacterSelectionController characterSelectionController = new CharacterSelectionController(gameWindow, characterSelectionPanel);
+        CharacterSelectionController characterSelectionController = new CharacterSelectionController(gameWindow, characterSelectionPanel, sound);
         
+        sound.setVolume(-30.0f);
         gameWindow.setContentPane(characterSelectionPanel);
         gameWindow.revalidate();
         gameWindow.repaint();
     }
+   
 }

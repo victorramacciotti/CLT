@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 
+import audio.Sound;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -26,6 +28,7 @@ public class GamePanelController implements KeyListener {
     private final Player player1;
     private final Player player2;
     private Set<Integer> pressedKeys = new HashSet<Integer>();
+    
     
     // Game state
     private final PlayerThread player1Thread;
@@ -695,4 +698,6 @@ public class GamePanelController implements KeyListener {
     
     @Override
     public void keyTyped(KeyEvent e) {}
+    
+    
 }

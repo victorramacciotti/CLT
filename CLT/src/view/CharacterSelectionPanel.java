@@ -242,6 +242,7 @@ public class CharacterSelectionPanel extends JPanel {
     		description.setLineWrap(true);     
     		description.setWrapStyleWord(true);
     		description.setMargin(new Insets(10, 10, 10, 10));
+    		description.setFocusable(false);
         }
         return description;
     }
