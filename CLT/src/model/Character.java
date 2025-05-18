@@ -72,4 +72,9 @@ public class Character {
     public void setLife(float life) {
         this.life = Math.max(life, 0);
     }
+
+	public void resetLife() {
+		setLife(maxLife);
+		
+	}
 }

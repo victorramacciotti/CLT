@@ -33,6 +33,13 @@ public class GameTimer {
             isRunning = true;
         }
     }
+    
+    public void restart() {
+    	currentSeconds = maxSeconds;
+        updateLabel();
+        timer.start();
+        isRunning = true;
+    }
 
     public void stop() {
         if (isRunning) {

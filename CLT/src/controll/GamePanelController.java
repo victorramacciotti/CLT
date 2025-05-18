@@ -32,6 +32,9 @@ public class GamePanelController implements KeyListener {
     private final PlayerThread player2Thread;
     private final GameTimer gameTimer;
     private Timer releaseDelayTimer;
+    private final int totalRounds = 3;       // Número total de rounds
+    private int currentRound = 1;      // Round atual
+    private int p1wins = 0, p2wins = 0;
     
     // Constants
     private static final int MAX_GAME_TIME_SECONDS = 120; // 2 minutes
@@ -79,7 +82,7 @@ public class GamePanelController implements KeyListener {
     private void startGameMonitoring() {
         new Thread(() -> {
             while (!gamePanel.isGameOver()) {
-                checkGameEnd();
+                checkRoundEnd();
                 updateGame();
                 try {
                     Thread.sleep(100); // Check every 100ms
@@ -90,8 +93,8 @@ public class GamePanelController implements KeyListener {
         }).start();
     }
 
-    private void checkGameEnd() {
-        String winner = null;
+    private void checkRoundEnd() {
+    	String winner = null;
         if (player1.getCharacter().getLife() <= 0) {
             winner = player2.getCharacter().getName();
         } else if (player2.getCharacter().getLife() <= 0) {
@@ -99,7 +102,22 @@ public class GamePanelController implements KeyListener {
         }
         
         if (winner != null) {
-            endGame(winner);
+            handleRoundEnd(winner);
+        }
+    }
+    
+    private void handleRoundEnd(String winner) {
+        if (winner.equals(player1.getCharacter().getName())) {
+            p1wins++;
+        } else if (winner.equals(player2.getCharacter().getName())) {
+            p2wins++;
+        }
+        System.out.println("Round " + currentRound + " acabou! Vencedor: " + winner);
+        currentRound++;
+        if (p1wins == 2 || p2wins == 2 || currentRound > totalRounds) {
+            endGame(winner);  // partida encerrada
+        } else {
+            startRound(winner);     // inicia próximo round
         }
     }
 
@@ -173,13 +191,34 @@ public class GamePanelController implements KeyListener {
         gamePanel.revalidate();
         gamePanel.repaint();
     }
+    
+    private void startRound(String winner) {
+    	System.out.println("Iniciando round " + currentRound);
+    	// Personaliza o texto do label com base no valor de winner
+        String labelText = winner.equals("Draw") ? "Game Over! It's a Draw!" : "Fim do Round " + currentRound + "! Vencedor: " + winner;
+        gamePanel.setNextRoundLabel(labelText);
+        
+        // Resetar vidas dos personagens
+        player1.getCharacter().resetLife();
+        player2.getCharacter().resetLife();
+        player1.setPositionX(10);
+        player1.setPositionY(630);
+        player2.setPositionX(690);
+        player2.setPositionY(630);
+        
+        updateGame();
+        gameTimer.restart();
+        
+        // Atualiza label de round na interface
+        gamePanel.getRoundLabel().setText("Round " + currentRound);
+    }
 
     public void showGameOver(String winner) {
         gamePanel.setGameOver(true);
         
         							
         // Personaliza o texto do label com base no valor de winner
-        String labelText = winner.equals("Draw") ? "Game Over! It's a Draw!" : "Game Over! Winner: " + winner;
+        String labelText = winner.equals("Draw") ? "Game Over! Empate!" : "Game Over! Vencedor: " + winner;
         gamePanel.setGameOverLabel(labelText);
     }
 
@@ -382,7 +421,8 @@ public class GamePanelController implements KeyListener {
         }
     }
     
- // Adiciona a tecla pressionada à sequência e atualiza o tempo
+    
+    // Adiciona a tecla pressionada à sequência e atualiza o tempo
     private void addToComboSequence(int keyCode) {
         player1InputSequence.add(keyCode);
         lastPlayer1InputTime = System.currentTimeMillis();

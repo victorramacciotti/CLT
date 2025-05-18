@@ -34,6 +34,8 @@ public class GamePanel extends JPanel {
     private JLabel spriteLabel2;
     private JLabel gameOverLabel;
     private JLabel timerLabel;
+    private JLabel roundLabel;
+    public JLabel roundMessage = new JLabel();
 
     public GamePanel(Player player1, Player player2) {
         this.player1 = player1;
@@ -71,6 +73,7 @@ public class GamePanel extends JPanel {
         topPanel.add(nameCharLabel2);
         topPanel.add(lifeBar2);
         topPanel.add(timerLabel);
+        topPanel.add(getRoundLabel());
         
         add(topPanel);
         
@@ -82,6 +85,19 @@ public class GamePanel extends JPanel {
         label.setForeground(Color.WHITE);
         label.setBounds(450, 10, 80, 40);
         return label;
+    }
+    
+    public JLabel getRoundLabel() {
+    	if (roundLabel == null) {
+    		roundLabel = new JLabel("Round 1");
+            roundLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
+            roundLabel.setForeground(Color.WHITE);
+            roundLabel.setBounds(408, 60, 184, 40);
+            roundLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            roundLabel.revalidate();
+            roundLabel.repaint();
+        }
+        return roundLabel;
     }
 
     private void buildPlayerSprites() {
@@ -188,4 +204,18 @@ public class GamePanel extends JPanel {
         revalidate();
         repaint();
     }
+    
+    public void setNextRoundLabel(String text) {
+        
+        roundMessage.setFont(new Font("Tahoma", Font.BOLD, 30));
+        roundMessage.setForeground(Color.WHITE);
+        roundMessage.setBounds(50, 300, 900, 50);
+        roundMessage.setHorizontalAlignment(SwingConstants.CENTER);
+        add(roundMessage);
+        setComponentZOrder(roundMessage, 0);
+        revalidate();
+        repaint();
+    }
+
+	
 }
