@@ -56,6 +56,8 @@ public class Player {
                 break;
             case "comboAttack":
                 currentGif = comboGif;
+            case "comboAttack2":
+                currentGif = comboGif;
                 break;
         }
     }
@@ -71,6 +73,8 @@ public class Player {
                 damage = character.kickAttack();
                 break;
             case "combo":
+                damage = character.comboAttack();
+            case "combo2":
                 damage = character.comboAttack();
                 break;
             default:

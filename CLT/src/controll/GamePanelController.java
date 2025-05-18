@@ -56,10 +56,20 @@ public class GamePanelController implements KeyListener {
         KeyEvent.VK_D, // Frente (D)
         KeyEvent.VK_E  // Chute (E)
     };
+    private static final int[] BACK_FORWARD_PUNCH_COMBO_P1 = { 
+            KeyEvent.VK_A, // Trás (A)
+            KeyEvent.VK_D, // Frente (D)
+            KeyEvent.VK_Q  // Soco (Q)
+        };
     private static final int[] BACK_FORWARD_KICK_COMBO_P2 = { 
             KeyEvent.VK_RIGHT, // Trás (right)
             KeyEvent.VK_LEFT, // Frente (left)
             KeyEvent.VK_O  // Chute (O)
+        };
+    private static final int[] BACK_FORWARD_PUNCH_COMBO_P2 = { 
+            KeyEvent.VK_RIGHT, // Trás (right)
+            KeyEvent.VK_LEFT, // Frente (left)
+            KeyEvent.VK_I  // Soco (I)
         };
 
     public GamePanelController(GameWindow gameWindow, GamePanel gamePanel, Player player1, Player player2) {
@@ -320,6 +330,8 @@ public class GamePanelController implements KeyListener {
             	gamePanel.getSpriteLabel(player1).setIcon(new ImageIcon(player1.getCurrentGif()));
                 gamePanel.getSpriteLabel(player1).revalidate();
                 gamePanel.getSpriteLabel(player1).repaint();
+                addToP1ComboSequence(keyCode); // Adiciona tecla à sequência
+                checkCombo(player1, player2); // Verifica o combo
                 if (isInRange(player1, player2)) {
                     player1.attack(player2, "punch");
                     fx.playSoundFX(9);
@@ -337,29 +349,7 @@ public class GamePanelController implements KeyListener {
                     fx.playSoundFX(12);
                 }
                 break;
-            case KeyEvent.VK_R:
-            	if(pressedKeys.contains(KeyEvent.VK_F)) {
-                	player1.setState("comboAttack");
-                	gamePanel.getSpriteLabel(player1).setIcon(new ImageIcon(player1.getCurrentGif()));
-                    gamePanel.getSpriteLabel(player1).revalidate();
-                    gamePanel.getSpriteLabel(player1).repaint();
-                    
-                    if (isInRange(player1, player2)) {
-                        player1.attack(player2, "combo");
-                    }
-                }
-            	break;
-            case KeyEvent.VK_F:
-            	if(pressedKeys.contains(KeyEvent.VK_R)) {
-            		gamePanel.getSpriteLabel(player1).setIcon(new ImageIcon(player1.getCurrentGif()));
-                    gamePanel.getSpriteLabel(player1).revalidate();
-                    gamePanel.getSpriteLabel(player1).repaint();
-                    
-                    if (isInRange(player1, player2)) {
-                        player1.attack(player2, "combo");
-                    }
-                }
-            	break;
+
                 
             // Player 2 movement
             case KeyEvent.VK_UP:
@@ -396,6 +386,8 @@ public class GamePanelController implements KeyListener {
             	gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
                 gamePanel.getSpriteLabel(player2).revalidate();
                 gamePanel.getSpriteLabel(player2).repaint();
+                addToP2ComboSequence(keyCode);
+                checkCombo(player2, player1);
                 if (isInRange(player2, player1)) {
                     player2.attack(player1, "punch");
                     fx.playSoundFX(9);
@@ -413,30 +405,7 @@ public class GamePanelController implements KeyListener {
                     fx.playSoundFX(12);
                 }
                 break;
-            case KeyEvent.VK_K:
-            	if(pressedKeys.contains(KeyEvent.VK_L)) {
-                	player2.setState("comboAttack");
-                	gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
-                    gamePanel.getSpriteLabel(player2).revalidate();
-                    gamePanel.getSpriteLabel(player2).repaint();
-                    
-                    if (isInRange(player1, player2)) {
-                        player2.attack(player1, "combo");
-                    }
-                }
-            	break;
-            case KeyEvent.VK_L:
-            	if(pressedKeys.contains(KeyEvent.VK_K)) {
-                	player2.setState("comboAttack");
-                	gamePanel.getSpriteLabel(player2).setIcon(new ImageIcon(player2.getCurrentGif()));
-                    gamePanel.getSpriteLabel(player2).revalidate();
-                    gamePanel.getSpriteLabel(player2).repaint();
-                    
-                    if (isInRange(player1, player2)) {
-                        player2.attack(player1, "combo");
-                    }
-                }
-            	break;
+            
         }
     }
     
@@ -459,12 +428,20 @@ public class GamePanelController implements KeyListener {
                 executeCombo(player, opponent);
                 player1InputSequence.clear(); // Reseta após executar
             }
+            else if (isComboValid1(BACK_FORWARD_PUNCH_COMBO_P1)) {
+                executeCombo2(player, opponent);
+                player1InputSequence.clear(); // Reseta após executar
+            }
         } else if (player.equals(player2)) {
         	System.out.println(player);
             if (isComboValid2(BACK_FORWARD_KICK_COMBO_P2)) {
                 executeCombo(player, opponent);
                 player2InputSequence.clear(); // Reseta após executar
             } 
+            else if (isComboValid2(BACK_FORWARD_PUNCH_COMBO_P2)) {
+                executeCombo2(player, opponent);
+                player2InputSequence.clear(); // Reseta após executar
+            }
         }
     }
 
@@ -509,6 +486,26 @@ public class GamePanelController implements KeyListener {
         if (isInRange(player, opponent)) {
             player.attack(opponent, "combo"); // Dano maior
             player.setState("comboAttack");
+            gamePanel.getSpriteLabel(player).setIcon(new ImageIcon(player.getCurrentGif()));
+            gamePanel.getSpriteLabel(player).revalidate();
+            gamePanel.getSpriteLabel(player).repaint();
+            
+            releaseDelayTimer = new Timer(1000, evt -> {
+            	player.setState("idle");
+                gamePanel.getSpriteLabel(player).setIcon(new ImageIcon(player.getCurrentGif()));
+                gamePanel.getSpriteLabel(player).revalidate();
+                gamePanel.getSpriteLabel(player).repaint();
+            });
+
+            releaseDelayTimer.setRepeats(false); 
+            releaseDelayTimer.start();
+        }
+    }
+    
+    private void executeCombo2(Player player, Player opponent) {
+        if (isInRange(player, opponent)) {
+            player.attack(opponent, "combo2"); // Dano maior
+            player.setState("comboAttack2");
             gamePanel.getSpriteLabel(player).setIcon(new ImageIcon(player.getCurrentGif()));
             gamePanel.getSpriteLabel(player).revalidate();
             gamePanel.getSpriteLabel(player).repaint();
