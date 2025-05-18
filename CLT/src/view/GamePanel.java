@@ -116,7 +116,7 @@ public class GamePanel extends JPanel {
     }
     
     public JLabel buildBackground() {
-		ImageIcon backgroundImage = new ImageIcon("resources/backgrounds/dia.png");
+		ImageIcon backgroundImage = new ImageIcon("resources/backgrounds/manha.png");
 		backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setSize(1000, 700);
         add(backgroundLabel);
@@ -130,8 +130,14 @@ public class GamePanel extends JPanel {
         ImageIcon backgroundImage;
 
         if (round.equals("Round 1")) {
-            backgroundImage = new ImageIcon("resources/backgrounds/dia.png");
-        } else {
+            backgroundImage = new ImageIcon("resources/backgrounds/manha.png");
+        } 
+        
+        if (round.equals("Round 2")) {
+            backgroundImage = new ImageIcon("resources/backgrounds/tarde.png");
+        }
+        
+        else {
             backgroundImage = new ImageIcon("resources/backgrounds/noite.png");
         }
 
